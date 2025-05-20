@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Providers } from "./providers";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -11,8 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="emerald">
-      <body className="font-inter">{children}</body>
+    <html lang="pt" data-theme="emerald">
+      <body className="font-inter">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

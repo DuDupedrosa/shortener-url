@@ -1,9 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import TecImage from "@/app/assets/svg/tec-image.svg";
+import Logo from "@/app/assets/image/logo.png";
+import ChangeLanguage from "@/components/ChangeLanguage";
+import { useTranslation } from "react-i18next";
 
 export default function AuthComponent() {
+  const { t } = useTranslation();
+
   return (
     <div className="h-screen p-8">
+      <ChangeLanguage />
       <section className="h-full grid lg:grid-cols-[40%_1fr] gap-8">
         {/* img - only desktop */}
         <div className="h-full hidden lg:block">
@@ -14,13 +22,16 @@ export default function AuthComponent() {
         {/* auth content (grid) */}
         <div className="h-full grid place-items-center">
           <div>
+            <div className="max-w-[150px] mx-auto">
+              <Image className="w-full" src={Logo} alt="snipply-url" />
+            </div>
             {/* title + google sign in button */}
             <div className="pb-8 border-b border-b-gray-400 mb-8">
               <h1 className="text-5xl text-center md:text-start font-grotesk font-semibold text-gray-900 mb-2">
-                Great to see you here!
+                {t("greeting")}
               </h1>
               <span className="block text-center md:text-start text-lg text-gray-900 mb-8">
-                Log in or create your account to get started
+                {t("login_subtitle")}
               </span>
 
               <button className="btn border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]">
@@ -51,14 +62,14 @@ export default function AuthComponent() {
                     ></path>
                   </g>
                 </svg>
-                Login with Google
+                {t("login_google")}
               </button>
             </div>
 
             {/* magic link container */}
             <div>
               <h2 className="text-lg text-gray-900 font-medium mb-5">
-                Or sign in with a magic link
+                {t("or_magic_link")}
               </h2>
               <label className="input w-full mb-5">
                 <svg
@@ -74,7 +85,7 @@ export default function AuthComponent() {
                 <input type="text" placeholder="you@example.com" />
               </label>
               <button className="btn btn-primary w-full">
-                Send magic link
+                {t("send_magic_link")}
               </button>
             </div>
           </div>
