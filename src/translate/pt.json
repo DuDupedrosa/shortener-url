@@ -1,7 +1,17 @@
 {
   "greeting": "Que bom te ver por aqui!",
-  "login_subtitle": "Faça login ou crie sua conta para começar",
+  "login_subtitle": "Faça login ou crie sua conta para começar a encurtar, compartilhar e acompanhar seus links.",
   "login_google": "Entrar com Google",
   "or_magic_link": "Ou entre com um link mágico",
-  "send_magic_link": "Enviar link mágico"
+  "send_magic_link": "Enviar link mágico",
+  "user_not_register": "Não foi encontrado nenhum usuário cadastrado com este e-mail.",
+  "user_not_registered_by_credentials": "Verificamos que este e-mail está associado a uma conta registrada via Google. Por favor, autentique-se pelo Google e defina uma senha, ou utilize a opção 'Esqueci minha senha' para redefinir suas credenciais.",
+  "invalid_password": "A senha informada é inválida para este e-mail.",
+  "error_occurred": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
+  "start_session": "Iniciar sessão",
+  "email": "Email",
+  "password": "Senha",
+  "invalid_email": "E-mail inválido",
+  "min_6_caracteres": "Mínimo 6 caracteres",
+  "or_signin_with": "Ou entre com"
 }

@@ -1,7 +1,17 @@
 {
   "greeting": "Great to see you here!",
-  "login_subtitle": "Log in or create your account to get started",
+  "login_subtitle": "Log in or create your account to start shortening, sharing, and tracking your links.",
   "login_google": "Login with Google",
   "or_magic_link": "Or sign in with a magic link",
-  "send_magic_link": "Send magic link"
+  "send_magic_link": "Send magic link",
+  "user_not_register": "No user found registered with this email.",
+  "user_not_registered_by_credentials": "We have verified that this email is associated with an account registered via Google. Please sign in with Google and set a password, or use the 'Forgot password' option to reset your credentials.",
+  "invalid_password": "The password entered is invalid for this email.",
+  "error_occurred": "An unexpected error occurred. Please try again later.",
+  "start_session": "Start session",
+  "email": "Email",
+  "password": "Password",
+  "invalid_email": "Invalid E-mail",
+  "min_6_caracteres": "Min 6 caracteres",
+  "or_signin_with": "Or Sign In With"
 }

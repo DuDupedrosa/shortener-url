@@ -5,6 +5,8 @@ import TecImage from "@/app/assets/svg/tec-image.svg";
 import Logo from "@/app/assets/image/logo.png";
 import ChangeLanguage from "@/components/ChangeLanguage";
 import { useTranslation } from "react-i18next";
+import { signIn } from "next-auth/react";
+import SignIn from "./SignIn";
 
 export default function AuthComponent() {
   const { t } = useTranslation();
@@ -20,7 +22,7 @@ export default function AuthComponent() {
           </div>
         </div>
         {/* auth content (grid) */}
-        <div className="h-full grid place-items-center">
+        <div className="h-full grid place-items-center pb-8">
           <div>
             <div className="max-w-[150px] mx-auto">
               <Image className="w-full" src={Logo} alt="snipply-url" />
@@ -30,11 +32,14 @@ export default function AuthComponent() {
               <h1 className="text-5xl text-center md:text-start font-grotesk font-semibold text-gray-900 mb-2">
                 {t("greeting")}
               </h1>
-              <span className="block text-center md:text-start text-lg text-gray-900 mb-8">
+              <span className="block max-w-lg text-center md:text-start text-lg text-gray-900 mb-8">
                 {t("login_subtitle")}
               </span>
 
-              <button className="btn border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]">
+              <button
+                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                className="btn border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]"
+              >
                 <svg
                   aria-label="Google logo"
                   width="16"
@@ -66,28 +71,10 @@ export default function AuthComponent() {
               </button>
             </div>
 
-            {/* magic link container */}
-            <div>
-              <h2 className="text-lg text-gray-900 font-medium mb-5">
-                {t("or_magic_link")}
-              </h2>
-              <label className="input w-full mb-5">
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g strokeWidth="2.5" fill="none" stroke="currentColor">
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </g>
-                </svg>
-                <input type="text" placeholder="you@example.com" />
-              </label>
-              <button className="btn btn-primary w-full">
-                {t("send_magic_link")}
-              </button>
-            </div>
+            <h2 className="text-lg text-gray-900 font-medium mb-5">
+              {t("or_signin_with")}:
+            </h2>
+            <SignIn />
           </div>
         </div>
       </section>
