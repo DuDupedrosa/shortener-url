@@ -1,9 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, emerald;
+  themes:
+    light --default,
+    emerald;
 }
 @theme {
   --font-inter: "Inter", sans-serif;
   --font-grotesk: "Space Grotesk", sans-serif;
+}
+@layer {
+  .input-error-message {
+    color: var(--color-red-600);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .input-error-message svg {
+    width: 18px;
+  }
+
+  .input-icon-inside-before {
+    width: 1rem;
+    color: var(--color-gray-600);
+  }
 }
