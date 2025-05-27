@@ -7,16 +7,29 @@ import ChangeLanguage from "@/components/ChangeLanguage";
 import { useTranslation } from "react-i18next";
 import { signIn } from "next-auth/react";
 import SignIn from "./SignIn";
+import { useEffect, useState } from "react";
+import SignUp from "./SignUp";
+
+const componentStepEnum = {
+  SIGN_IN: 1,
+  SIGN_UP: 2,
+};
 
 export default function AuthComponent() {
   const { t } = useTranslation();
+  const [step, setStep] = useState(componentStepEnum.SIGN_IN);
+  const [emailRegistered, setEmailRegistered] = useState<string>("");
+
+  useEffect(() => {
+    setEmailRegistered("");
+  }, []);
 
   return (
     <div className="h-screen p-8">
       <ChangeLanguage />
       <section className="h-full grid lg:grid-cols-[40%_1fr] gap-8">
         {/* img - only desktop */}
-        <div className="h-full hidden lg:block">
+        <div className="h-[99%] hidden lg:block">
           <div className="rounded-lg h-full  bg-gray-200 grid place-items-center">
             <Image src={TecImage} alt="TEC-IMAGE" />
           </div>
@@ -28,7 +41,7 @@ export default function AuthComponent() {
               <Image className="w-full" src={Logo} alt="snipply-url" />
             </div>
             {/* title + google sign in button */}
-            <div className="pb-8 border-b border-b-gray-400 mb-8">
+            <div className="mb-8">
               <h1 className="text-5xl text-center md:text-start font-grotesk font-semibold text-gray-900 mb-2">
                 {t("greeting")}
               </h1>
@@ -71,10 +84,39 @@ export default function AuthComponent() {
               </button>
             </div>
 
-            <h2 className="text-lg text-gray-900 font-medium mb-5">
-              {t("or_signin_with")}:
-            </h2>
-            <SignIn />
+            <div className="flex items-center my-6">
+              <div className="flex-grow h-px bg-gray-500" />
+              <span className="mx-4 text-sm font-medium text-gray-800">
+                {t("or_continue_with")}:
+              </span>
+              <div className="flex-grow h-px bg-gray-500" />
+            </div>
+
+            {step === componentStepEnum.SIGN_IN && (
+              <>
+                <SignIn
+                  email={emailRegistered}
+                  onCreateAccount={() => {
+                    setStep(componentStepEnum.SIGN_UP);
+                    setEmailRegistered("");
+                  }}
+                />
+              </>
+            )}
+            {step === componentStepEnum.SIGN_UP && (
+              <>
+                <SignUp
+                  onRegister={(email: string) => {
+                    setEmailRegistered(email);
+                    setStep(componentStepEnum.SIGN_IN);
+                  }}
+                  onSignIn={() => {
+                    setStep(componentStepEnum.SIGN_IN);
+                    setEmailRegistered("");
+                  }}
+                />
+              </>
+            )}
           </div>
         </div>
       </section>

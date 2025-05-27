@@ -13,5 +13,15 @@
   "password": "Password",
   "invalid_email": "Invalid E-mail",
   "min_6_caracteres": "Min 6 caracteres",
-  "or_signin_with": "Or Sign In With"
+  "or_signin_with": "Or Sign In With",
+  "create_account_login": "Don't have an account yet? Create one",
+  "sign_in_login": "Already have an account? Log in",
+  "create_account": "Create account",
+  "required_field": "Required field",
+  "passwords_do_not_match": "The passwords you entered don’t match.",
+  "full_name": "Full name",
+  "confirm_password": "Confirm password",
+  "user_already_registered": "A user is already registered with the provided email.",
+  "create_account_success": "Account successfully created! Click the button below to sign in with your credentials.",
+  "or_continue_with": "Or continue with"
 }

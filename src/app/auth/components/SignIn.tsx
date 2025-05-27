@@ -8,12 +8,18 @@ import {
   ExclamationTriangleIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
-export default function SignIn() {
+export default function SignIn({
+  onCreateAccount,
+  email,
+}: {
+  onCreateAccount: () => void;
+  email: string;
+}) {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [alert, setAlert] = useState<string>("");
@@ -29,6 +35,8 @@ export default function SignIn() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    getValues,
+    setValue,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
@@ -65,6 +73,12 @@ export default function SignIn() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (email && email.length > 0) {
+      setValue("email", email);
+    }
+  }, [email]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -131,6 +145,12 @@ export default function SignIn() {
         {loading && <span className="loading loading-spinner"></span>}
         {t("start_session")}
       </button>
+      <span
+        onClick={() => onCreateAccount()}
+        className="text-center underline transition-all duration-300 max-w-max mx-auto block text-sm text-gray-600 hover:text-primary cursor-pointer font-medium mt-5"
+      >
+        {t("create_account_login")}
+      </span>
     </form>
   );
 }
