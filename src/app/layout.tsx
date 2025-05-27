@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import { Providers } from "./providers";
+import { Toaster } from "sonner";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -16,7 +17,11 @@ export default function RootLayout({
   return (
     <html lang="pt" data-theme="emerald">
       <body className="font-inter">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+
+          <Toaster richColors position="top-right" />
+        </Providers>
       </body>
     </html>
   );

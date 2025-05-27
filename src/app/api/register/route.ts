@@ -37,9 +37,16 @@ export async function POST(req: NextRequest) {
       where: { email: dto.email },
     });
 
-    if (user) {
+    if (user && user.password) {
       return NextResponse.json(
         { message: "user_already_registered" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (user && !user.password) {
+      return NextResponse.json(
+        { message: "user_not_registered_by_credentials" },
         { status: HttpStatusEnum.BAD_REQUEST }
       );
     }

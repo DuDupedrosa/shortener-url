@@ -13,5 +13,15 @@
   "password": "Senha",
   "invalid_email": "E-mail inválido",
   "min_6_caracteres": "Mínimo 6 caracteres",
-  "or_signin_with": "Ou entre com"
+  "or_signin_with": "Ou entre com",
+  "create_account_login": "Ainda não tem uma conta? Crie a sua",
+  "sign_in_login": "Já tem uma conta? Faça login",
+  "create_account": "Criar conta",
+  "required_field": "Campo obritário",
+  "passwords_do_not_match": "As senhas digitadas são diferentes.",
+  "full_name": "Nome completo",
+  "confirm_password": "Confirmar senha",
+  "user_already_registered": "Já existe um usuário cadastrado para o e-mail informado.",
+  "create_account_success": "Conta criada com sucesso! Clique no botão abaixo para iniciar sessão com suas credenciais.",
+  "or_continue_with": "Ou continue com"
 }

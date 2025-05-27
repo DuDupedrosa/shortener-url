@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@prisma/client": "^6.8.2",
     "@supabase/supabase-js": "^2.49.8",
+    "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "i18next": "^25.2.0",
@@ -24,6 +25,7 @@
     "react-hook-form": "^7.56.4",
     "react-i18next": "^15.5.1",
     "resend": "^4.5.1",
+    "sonner": "^2.0.3",
     "zod": "^3.25.28"
   },
   "devDependencies": {
