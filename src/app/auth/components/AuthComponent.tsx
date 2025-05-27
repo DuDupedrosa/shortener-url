@@ -51,7 +51,7 @@ export default function AuthComponent() {
 
               <button
                 onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-                className="btn border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]"
+                className="btn transition-all duration-100 hover:bg-gray-100 shadow border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]"
               >
                 <svg
                   aria-label="Google logo"
