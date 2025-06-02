@@ -1,13 +1,21 @@
-import { withAuth } from "next-auth/middleware";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default withAuth({
-  callbacks: {
-    authorized: ({ token }) => !!token,
-  },
-  pages: {
-    signIn: "/auth",
-  },
-});
+export async function middleware(req: NextRequest) {
+  const token = await getToken({ req });
+  const isAuth = !!token;
 
-// Rotas que o middleware deve proteger
-export const config = { matcher: ["/dashboard/:path*"] };
+  if (!isAuth) {
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/auth";
+    redirectUrl.searchParams.set("error", "unauthorized");
+
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/app/:path*"],
+};

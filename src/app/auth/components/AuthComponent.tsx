@@ -9,6 +9,8 @@ import { signIn } from "next-auth/react";
 import SignIn from "./SignIn";
 import { useEffect, useState } from "react";
 import SignUp from "./SignUp";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 const componentStepEnum = {
   SIGN_IN: 1,
@@ -19,10 +21,24 @@ export default function AuthComponent() {
   const { t } = useTranslation();
   const [step, setStep] = useState(componentStepEnum.SIGN_IN);
   const [emailRegistered, setEmailRegistered] = useState<string>("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     setEmailRegistered("");
   }, []);
+
+  useEffect(() => {
+    if (
+      searchParams.get("error") &&
+      searchParams.get("error") === "unauthorized"
+    ) {
+      setTimeout(() => {
+        toast.error(t("unauthorized"));
+      }, 100);
+      router.replace("/auth", { scroll: false });
+    }
+  }, [searchParams]);
 
   return (
     <div className="h-screen p-8">
@@ -50,7 +66,9 @@ export default function AuthComponent() {
               </span>
 
               <button
-                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                onClick={() =>
+                  signIn("google", { callbackUrl: "/app/dashboard" })
+                }
                 className="btn transition-all duration-100 hover:bg-gray-100 shadow border-2 w-full lg:w-max  bg-white text-black border-[#e5e5e5]"
               >
                 <svg

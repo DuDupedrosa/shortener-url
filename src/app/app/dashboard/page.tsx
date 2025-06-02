@@ -1,19 +1,14 @@
 "use client";
 
-import { useSession, signIn } from "next-auth/react";
-import { useEffect } from "react";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "unauthenticated") signIn(); // redireciona para login
-  }, [status]);
 
   if (status === "loading") return <p>Carregando...</p>;
+
+  // Se não está autenticado, a middleware já redirecionou,
+  // então aqui é seguro assumir que o user está logado.
 
   return (
     <div>
