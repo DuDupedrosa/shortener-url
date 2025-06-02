@@ -23,5 +23,6 @@
   "confirm_password": "Confirm password",
   "user_already_registered": "A user is already registered with the provided email.",
   "create_account_success": "Account successfully created! Click the button below to sign in with your credentials.",
-  "or_continue_with": "Or continue with"
+  "or_continue_with": "Or continue with",
+  "unauthorized": "You are not authorized to access this resource. Please log in to continue."
 }

@@ -65,7 +65,7 @@ export default function SignIn({
           setAlert(t("error_occurred"));
         }
       } else {
-        router.push("/dashboard");
+        router.push("/app/dashboard");
       }
     } catch (err) {
       setAlert(t("error_occurred"));

@@ -23,5 +23,6 @@
   "confirm_password": "Confirmar senha",
   "user_already_registered": "Já existe um usuário cadastrado para o e-mail informado.",
   "create_account_success": "Conta criada com sucesso! Clique no botão abaixo para iniciar sessão com suas credenciais.",
-  "or_continue_with": "Ou continue com"
+  "or_continue_with": "Ou continue com",
+  "unauthorized": "Você não está autorizado a acessar este recurso. Por favor, faça login para continuar."
 }
