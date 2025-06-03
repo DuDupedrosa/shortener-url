@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HttpStatusEnum } from "../../helpers/enums/HttpStatusEnum";
 import { PrismaClient } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { message: "unauthorized" },
+        { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
     const { searchParams } = new URL(req.url);
     const email = searchParams.get("email");
 
