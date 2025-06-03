@@ -15,7 +15,7 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
     <div className="px-5">
       <div className="card max-w-xl mx-auto mt-20 bg-base-100 shadow-xl border border-primary">
         <div className="card-body items-center text-center">
-          <h2 className="card-title text-3xl whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+          <h2 className="card-title text-3xl flex-wrap items-center justify-center overflow-hidden text-ellipsis max-w-full">
             {t("hello")}, {truncateText(userName, 20)}
             <Image src={IconHand} alt="wave-hand" />
           </h2>
