@@ -47,13 +47,8 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) {
           throw new Error("invalid_password");
         }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-        };
+        const { password, ...rest } = user;
+        return rest;
       },
     }),
   ],

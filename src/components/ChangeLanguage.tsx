@@ -2,8 +2,8 @@
 
 import { useTranslation } from "react-i18next";
 import { LanguageIcon } from "@heroicons/react/24/outline";
-import USFlag from "@/app/assets/svg/us-flag.svg";
-import BRFlag from "@/app/assets/svg/br-flag.svg";
+import USFlag from "@/assets/svg/us-flag.svg";
+import BRFlag from "@/assets/svg/br-flag.svg";
 import Image from "next/image";
 import { LanguageText, LanguageTextEnum } from "@/helper/enums/LanguageEnum";
 
