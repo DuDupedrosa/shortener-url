@@ -24,5 +24,11 @@
   "user_already_registered": "Já existe um usuário cadastrado para o e-mail informado.",
   "create_account_success": "Conta criada com sucesso! Clique no botão abaixo para iniciar sessão com suas credenciais.",
   "or_continue_with": "Ou continue com",
-  "unauthorized": "Você não está autorizado a acessar este recurso. Por favor, faça login para continuar."
+  "unauthorized": "Você não está autorizado a acessar este recurso. Por favor, faça login para continuar.",
+  "hello": "Olá",
+  "empty_dashboard_text_1": "Parece que você ainda não criou nenhum link.",
+  "empty_dashboard_text_2": "Clique no botão abaixo para começar a encurtar URLs com facilidade!",
+  "create_link": "Criar link",
+  "loading": "Carregando",
+  "loading_text": "Estamos preparando tudo para você!"
 }

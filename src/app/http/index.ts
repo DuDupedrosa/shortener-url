@@ -23,6 +23,7 @@ http.interceptors.response.use(
 
       if (status === HttpStatusCode.Unauthorized) {
         window.location.href = `/auth?error=unauthorized`;
+        window.localStorage.clear();
       }
     }
     return Promise.reject(error);

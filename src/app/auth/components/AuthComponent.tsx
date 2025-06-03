@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import TecImage from "@/app/assets/svg/tec-image.svg";
-import Logo from "@/app/assets/image/logo.png";
+import TecImage from "@/assets/image/tec-image.png";
+import Logo from "@/assets/image/logo.png";
 import ChangeLanguage from "@/components/ChangeLanguage";
 import { useTranslation } from "react-i18next";
 import { signIn } from "next-auth/react";
@@ -33,10 +33,11 @@ export default function AuthComponent() {
       searchParams.get("error") &&
       searchParams.get("error") === "unauthorized"
     ) {
+      window.localStorage.clear();
+      router.replace("/auth", { scroll: false });
       setTimeout(() => {
         toast.error(t("unauthorized"));
       }, 100);
-      router.replace("/auth", { scroll: false });
     }
   }, [searchParams]);
 
