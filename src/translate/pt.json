@@ -30,5 +30,7 @@
   "empty_dashboard_text_2": "Clique no botão abaixo para começar a encurtar URLs com facilidade!",
   "create_link": "Criar link",
   "loading": "Carregando",
-  "loading_text": "Estamos preparando tudo para você!"
+  "loading_text": "Estamos preparando tudo para você!",
+  "logout": "Sair",
+  "settings": "Configurações"
 }

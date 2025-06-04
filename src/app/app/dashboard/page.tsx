@@ -45,12 +45,13 @@ export default function DashboardPage() {
   // então aqui é seguro assumir que o user está logado.
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <MainHeader />
-
+    <div className="min-h-screen bg-gray-50">
       {loadingUser && <PageLoading />}
       {!loadingUser && (
-        <div>{user && <EmptyDashboard userName={user.name} />}</div>
+        <div>
+          <MainHeader />
+          {user && <EmptyDashboard userName={user.name} />}
+        </div>
       )}
     </div>
   );

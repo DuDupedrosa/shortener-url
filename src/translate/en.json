@@ -30,5 +30,7 @@
   "empty_dashboard_text_2": "Click the button below to start shortening URLs with ease!",
   "create_link": "Create link",
   "loading": "Loading",
-  "loading_text": "We're getting everything ready for you!"
+  "loading_text": "We're getting everything ready for you!",
+  "logout": "Logout",
+  "settings": "Settings"
 }
