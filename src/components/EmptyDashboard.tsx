@@ -1,5 +1,6 @@
 "use client";
 
+import DialogCreateShortenerLink from "@/app/app/dashboard/components/DialogCreateShortenerLink";
 import IconHand from "@/assets/image/hand-hello.png";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -9,6 +10,13 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
 
   function truncateText(text: string, maxLength: number) {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  }
+
+  function handleOpenDialogCreateShortenerLink() {
+    const dialog = document.getElementById(
+      "my_modal_4"
+    ) as HTMLDialogElement | null;
+    if (dialog) dialog.showModal();
   }
 
   return (
@@ -24,8 +32,15 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
             <span>{t("empty_dashboard_text_2")}</span>
           </p>
           <div className="card-actions mt-6">
-            <button className="btn btn-primary">{t("create_link")}</button>
+            <button
+              onClick={() => handleOpenDialogCreateShortenerLink()}
+              className="btn btn-primary"
+            >
+              {t("create_link")}
+            </button>
           </div>
+          {/* You can open the modal using document.getElementById('ID').showModal() method */}
+          <DialogCreateShortenerLink />
         </div>
       </div>
     </div>
