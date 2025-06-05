@@ -23,7 +23,7 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
     <div className="px-5">
       <div className="card max-w-xl mx-auto mt-20 bg-white shadow-md border border-green-300 rounded-lg">
         <div className="card-body items-center text-center px-8 py-6">
-          <h2 className="card-title text-3xl flex flex-wrap items-center justify-center max-w-full overflow-hidden text-ellipsis">
+          <h2 className="card-title text-gray-900 text-3xl flex flex-wrap items-center justify-center max-w-full overflow-hidden text-ellipsis">
             {t("hello")}, {truncateText(userName, 20)}
             <Image src={IconHand} alt="wave-hand" className="ml-2" />
           </h2>

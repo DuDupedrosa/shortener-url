@@ -32,5 +32,22 @@
   "loading": "Carregando",
   "loading_text": "Estamos preparando tudo para você!",
   "logout": "Sair",
-  "settings": "Configurações"
+  "settings": "Configurações",
+  "url_custon": "URL personalizada",
+  "url_original": "Original URL",
+  "invalid_url": "URL inválida",
+  "label_url_min_3_caracteres": "A label deve ter no mínimo 3 caracteres",
+  "label_url_rule": "A label deve conter apenas letras minúsculas, números, hífens simples, e não pode começar ou terminar com hífen.",
+  "label_url_required": "Label é obrigatória se a geração automática estiver desativada",
+  "create_shortener_link": "Criar link encurtado",
+  "create_shortener_link_subtitle": "Preencha os campos abaixo para gerar uma URL personalizada.",
+  "generate_randow_label": "Gerar URL aleatória",
+  "randow_label_description_1": "Como a opção aleatória está desativada, defina manualmente a parte final da URL, usando hífens em vez de espaços.",
+  "randow_label_description_2": "O sistema converte tudo para",
+  "my_custom_link": "meu-link-personalizado",
+  "example": "Exemplo",
+  "close": "Fechar",
+  "send": "Enviar",
+  "randow_label_description_3": "O início da URL será sempre",
+  "lowercase": "Mínusculas"
 }

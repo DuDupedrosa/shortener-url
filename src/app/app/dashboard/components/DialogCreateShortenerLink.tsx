@@ -1,48 +1,120 @@
+"use client";
+
+import ErrorInputMessage from "@/components/ErrorInputMessage";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import validator from "validator";
+import { useTranslation } from "react-i18next";
+
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
 
 export default function DialogCreateShortenerLink() {
+  const [showInputLabel, setShowInputLabel] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [alert, setAlert] = useState<string>("");
+  const { t } = useTranslation();
+
+  const loginSchema = z
+    .object({
+      url: z.string().refine((val) => validator.isURL(val, {}), {
+        message: t("invalid_url"),
+      }),
+      randowLabel: z.boolean(),
+      label: z
+        .string()
+        .optional()
+        .refine((val) => !val || val.trim().length >= 3, {
+          message: t("label_url_min_3_caracteres"),
+        })
+        .refine((val) => !val || /^[a-z0-9]+(-[a-z0-9]+)*$/.test(val), {
+          message: t("label_url_rule"),
+        }),
+    })
+    .superRefine((data, ctx) => {
+      if (!data.randowLabel && (!data.label || !data.label.trim())) {
+        ctx.addIssue({
+          path: ["label"],
+          code: z.ZodIssueCode.custom,
+          message: t("label_url_required"),
+        });
+      }
+    });
+  type LoginFormData = z.infer<typeof loginSchema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    getValues,
+    setValue,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      url: undefined,
+      randowLabel: true,
+      label: undefined,
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    console.log("%c⧭", "color: #00b300", data);
+    setLoading(true);
+    try {
+      let payload = { ...data };
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  function resetValues() {
+    setValue("label", "");
+    setValue("url", "");
+    setValue("randowLabel", true);
+  }
+
   function handleCloseDialog() {
     const dialog = document.getElementById(
       "my_modal_4"
     ) as HTMLDialogElement | null;
-    if (dialog) dialog.close();
+    if (dialog) {
+      resetValues();
+      dialog.close();
+    }
   }
+
   return (
     <dialog id="my_modal_4" className="modal">
       <div className="modal-box">
         <h2 className="text-2xl font-semibold text-gray-900 mb-1">
-          Criar link encurtado
+          {t("create_shortener_link")}
         </h2>
         <p className="text-sm text-gray-600">
-          Preencha os campos abaixo para gerar uma URL personalizada.
+          {t("create_shortener_link_subtitle")}
         </p>
-        <form className="mt-6 space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
           <div className="flex flex-col gap-1">
             <label htmlFor="url" className={labelStyle}>
-              URL
+              {t("url_original")}
             </label>
             <input
               id="url"
               type="text"
               className={inputStyle}
               placeholder="https://..."
+              {...register("url")}
             />
+            {errors.url?.message && (
+              <ErrorInputMessage message={errors.url.message} />
+            )}
           </div>
 
           <div>
-            <div className="flex flex-col gap-1 mb-3">
-              <label htmlFor="label" className={labelStyle}>
-                Label
-              </label>
-              <input
-                id="label"
-                type="text"
-                className={inputStyle}
-                placeholder="Nome curto ou descrição"
-              />
-            </div>
-            <div className="w-full flex flex-col items-start">
+            <div className="w-full flex flex-col items-start mb-4">
               <label
                 htmlFor="randow-label"
                 className="flex items-center gap-2 cursor-pointer"
@@ -50,25 +122,108 @@ export default function DialogCreateShortenerLink() {
                 <input
                   id="randow-label"
                   type="checkbox"
-                  defaultChecked
                   className="checkbox checkbox-secondary checkbox-sm"
+                  {...register("randowLabel", {
+                    onChange: (e) => {
+                      const checked = e.target.checked;
+                      setShowInputLabel(!checked); // sua lógica extra
+                    },
+                  })}
                 />
                 <span className="text-sm font-medium text-gray-700">
-                  Gerar label aleatória
+                  {t("generate_randow_label")}
                 </span>
               </label>
             </div>
+
+            <div
+              className={`transition-all duration-500 ease-out transform ${
+                showInputLabel
+                  ? "opacity-100 translate-y-0 pointer-events-auto max-h-[1000px]"
+                  : "opacity-0 -translate-y-2 pointer-events-none max-h-0 overflow-hidden"
+              }`}
+            >
+              <div className="flex flex-col gap-1">
+                <label htmlFor="label" className={labelStyle}>
+                  {t("url_custon")}
+                </label>
+                <input
+                  id="label"
+                  type="text"
+                  className={inputStyle}
+                  placeholder="ex: minha-url-curta"
+                  {...register("label", {
+                    onChange: (e) => {
+                      const input = e.target as HTMLInputElement;
+                      let val = input.value.toLowerCase();
+                      val = val.replace(/[^a-z0-9-]/g, ""); // deixa só letras, números e hífen
+                      val = val.replace(/-{2,}/g, "-"); // remove hífens duplos (--)
+                      input.value = val;
+                    },
+                  })}
+                />
+                {errors.label?.message && (
+                  <ErrorInputMessage message={errors.label.message} />
+                )}
+                <p className="mt-2 flex text-start items-start gap-2 text-sm text-gray-800 leading-snug">
+                  <InformationCircleIcon className="w-5 h-5 flex-shrink-0 text-yellow-600 mt-[3px]" />
+                  <span>
+                    {t("randow_label_description_1")}
+                    <span className="block mt-1">
+                      {t("example")}:{" "}
+                      <code className="font-bold">{t("my_custom_link")}</code>.
+                      <span className="block my-1">
+                        {t("randow_label_description_3")}:{" "}
+                        <span className="font-bold">
+                          {window.location.origin}/
+                        </span>
+                      </span>
+                      <span className="block">
+                        {t("randow_label_description_2")}:{" "}
+                        <span className="font-bold">{t("lowercase")}</span>
+                      </span>
+                    </span>
+                  </span>
+                </p>
+              </div>
+            </div>
           </div>
+
+          {alert && alert.length > 0 && (
+            <div role="alert" className="alert alert-error">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{alert}</span>
+            </div>
+          )}
+
           <div className="pt-4 flex flex-col sm:flex-row gap-3">
             <button
+              disabled={loading}
               type="button"
               className="btn btn-outline h-10 text-gray-700 hover:bg-error hover:text-white sm:flex-1"
               onClick={handleCloseDialog}
             >
-              Fechar
+              {t("close")}
             </button>
-            <button type="submit" className="btn h-10 btn-success sm:flex-1">
-              Enviar
+            <button
+              disabled={loading}
+              type="submit"
+              className="btn h-10 btn-success sm:flex-1"
+            >
+              {loading && <span className="loading loading-spinner"></span>}
+              {t("send")}
             </button>
           </div>
         </form>

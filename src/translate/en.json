@@ -32,5 +32,22 @@
   "loading": "Loading",
   "loading_text": "We're getting everything ready for you!",
   "logout": "Logout",
-  "settings": "Settings"
+  "settings": "Settings",
+  "url_custon": "Custom URL",
+  "url_original": "Original URL",
+  "invalid_url": "Invalid URL",
+  "label_url_min_3_caracteres": "The label must be at least 3 characters long",
+  "label_url_rule": "The label must contain only lowercase letters, numbers, single hyphens, and cannot start or end with a hyphen.",
+  "label_url_required": "Label is required if automatic generation is disabled",
+  "create_shortener_link": "Create shortened link",
+  "create_shortener_link_subtitle": "Fill in the fields below to generate a custom URL.",
+  "generate_randow_label": "Generate random URL",
+  "randow_label_description_1": "Since the random option is disabled, manually define the final part of the URL using hyphens instead of spaces.",
+  "randow_label_description_2": "The system converts everything to",
+  "my_custom_link": "my-custom-link",
+  "example": "Example",
+  "close": "Close",
+  "send": "Send",
+  "randow_label_description_3": "The base URL will always be",
+  "lowercase": "lowercase"
 }
