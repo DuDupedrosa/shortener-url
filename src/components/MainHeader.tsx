@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import ChangeLanguageGlobeButton from "./ChangeLanguageGlobeButton";
 
 export default function MainHeader() {
   const [user, setUser] = useState<User | null>(null);
@@ -35,6 +36,9 @@ export default function MainHeader() {
         >
           <Image alt="Snipply-url" src={Logo} className="w-36 object-contain" />
         </Link>
+      </div>
+      <div className="mr-3">
+        <ChangeLanguageGlobeButton />
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -83,7 +87,7 @@ export default function MainHeader() {
 
           <ul
             tabIndex={0}
-            className="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 p-3 shadow border border-gray-400"
+            className="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 pt-2 shadow border border-gray-400"
           >
             <li>
               <a className="flex items-center gap-2">
