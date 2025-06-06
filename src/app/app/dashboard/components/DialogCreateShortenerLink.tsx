@@ -23,7 +23,7 @@ export default function DialogCreateShortenerLink() {
       url: z.string().refine((val) => validator.isURL(val, {}), {
         message: t("invalid_url"),
       }),
-      randowLabel: z.boolean(),
+      randomLabel: z.boolean(),
       label: z
         .string()
         .optional()
@@ -35,7 +35,7 @@ export default function DialogCreateShortenerLink() {
         }),
     })
     .superRefine((data, ctx) => {
-      if (!data.randowLabel && (!data.label || !data.label.trim())) {
+      if (!data.randomLabel && (!data.label || !data.label.trim())) {
         ctx.addIssue({
           path: ["label"],
           code: z.ZodIssueCode.custom,
@@ -56,7 +56,7 @@ export default function DialogCreateShortenerLink() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       url: undefined,
-      randowLabel: true,
+      randomLabel: true,
       label: undefined,
     },
   });
@@ -76,7 +76,7 @@ export default function DialogCreateShortenerLink() {
     reset();
     setValue("label", undefined);
     setValue("url", "");
-    setValue("randowLabel", true);
+    setValue("randomLabel", true);
     setShowInputLabel(false);
   }
 
@@ -119,20 +119,18 @@ export default function DialogCreateShortenerLink() {
           <div>
             <div className="w-full flex flex-col items-start mb-4">
               <label
-                htmlFor="randow-label"
+                htmlFor="random-label"
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <input
-                  id="randow-label"
+                  id="random-label"
                   type="checkbox"
-                  className="checkbox checkbox-secondary checkbox-sm"
-                  {...register("randowLabel", {
+                  className="toggle toggle-secondary toggle-sm"
+                  {...register("randomLabel", {
                     onChange: (e) => {
                       const checked = e.target.checked;
+                      setValue("label", undefined);
                       setShowInputLabel(!checked); // sua lógica extra
-                      if (getValues("label") && !checked) {
-                        setValue("label", undefined);
-                      }
                     },
                   })}
                 />
@@ -188,18 +186,18 @@ export default function DialogCreateShortenerLink() {
                 <p className="mt-2 flex text-start items-start gap-2 text-sm text-gray-800 leading-snug">
                   <InformationCircleIcon className="w-5 h-5 flex-shrink-0 text-yellow-600 mt-[3px]" />
                   <span>
-                    {t("randow_label_description_1")}
+                    {t("random_label_description_1")}
                     <span className="block mt-1">
                       {t("example")}:{" "}
                       <code className="font-bold">{t("my_custom_link")}</code>
                       <span className="block my-1">
-                        {t("randow_label_description_3")}:{" "}
+                        {t("random_label_description_3")}:{" "}
                         <span className="font-bold">
                           {window.location.origin}/
                         </span>
                       </span>
                       <span className="block">
-                        {t("randow_label_description_2")}:{" "}
+                        {t("random_label_description_2")}:{" "}
                         <span className="font-bold">{t("lowercase")}</span>
                       </span>
                     </span>
