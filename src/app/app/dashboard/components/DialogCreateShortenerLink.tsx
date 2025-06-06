@@ -129,10 +129,8 @@ export default function DialogCreateShortenerLink() {
                   {...register("randowLabel", {
                     onChange: (e) => {
                       const checked = e.target.checked;
+                      setValue("label", undefined);
                       setShowInputLabel(!checked); // sua lógica extra
-                      if (getValues("label") && !checked) {
-                        setValue("label", undefined);
-                      }
                     },
                   })}
                 />
