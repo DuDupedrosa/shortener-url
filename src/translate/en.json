@@ -49,5 +49,9 @@
   "close": "Close",
   "send": "Send",
   "randow_label_description_3": "The base URL will always be",
-  "lowercase": "lowercase"
+  "lowercase": "lowercase",
+  "destination_url": "Destination URL (link target)",
+  "generate_random_label": "Auto-generate short link",
+  "generate_random_label_helper": "The end of the link will be generated automatically.",
+  "short_ex": "E.g."
 }
