@@ -8,11 +8,18 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import validator from "validator";
 import { useTranslation } from "react-i18next";
+import { http } from "@/app/http";
+import { AxiosError, HttpStatusCode } from "axios";
+import { toast } from "sonner";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
 
-export default function DialogCreateShortenerLink() {
+export default function DialogCreateShortenerLink({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) {
   const [showInputLabel, setShowInputLabel] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<string>("");
@@ -43,7 +50,7 @@ export default function DialogCreateShortenerLink() {
         });
       }
     });
-  type LoginFormData = z.infer<typeof loginSchema>;
+  type CreateShortenerData = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -52,7 +59,7 @@ export default function DialogCreateShortenerLink() {
     getValues,
     setValue,
     reset,
-  } = useForm<LoginFormData>({
+  } = useForm<CreateShortenerData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       url: undefined,
@@ -61,23 +68,13 @@ export default function DialogCreateShortenerLink() {
     },
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("%c⧭", "color: #00b300", data);
-    setLoading(true);
-    try {
-      let payload = { ...data };
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
-
   function resetValues() {
     reset();
     setValue("label", undefined);
     setValue("url", "");
     setValue("randomLabel", true);
     setShowInputLabel(false);
+    setAlert("");
   }
 
   function handleCloseDialog() {
@@ -89,6 +86,29 @@ export default function DialogCreateShortenerLink() {
       dialog.close();
     }
   }
+
+  const onSubmit = async (data: CreateShortenerData) => {
+    setLoading(true);
+    setAlert("");
+    try {
+      let payload = { ...data };
+      await http.post("/api/shortener", payload);
+      toast.success(t("success_create_shortener"));
+      handleCloseDialog();
+      onSuccess();
+    } catch (err) {
+      if (
+        err instanceof AxiosError &&
+        err.status === HttpStatusCode.BadRequest
+      ) {
+        if (err.response) {
+          setAlert(t(err.response.data.message));
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <dialog id="my_modal_4" className="modal">
@@ -130,7 +150,8 @@ export default function DialogCreateShortenerLink() {
                     onChange: (e) => {
                       const checked = e.target.checked;
                       setValue("label", undefined);
-                      setShowInputLabel(!checked); // sua lógica extra
+                      setShowInputLabel(!checked);
+                      setAlert("");
                     },
                   })}
                 />

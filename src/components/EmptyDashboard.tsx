@@ -40,7 +40,7 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
             </button>
           </div>
           {/* You can open the modal using document.getElementById('ID').showModal() method */}
-          <DialogCreateShortenerLink />
+          <DialogCreateShortenerLink onSuccess={() => console.log("sucesso")} />
         </div>
       </div>
     </div>

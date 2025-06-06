@@ -52,5 +52,9 @@
   "destination_url": "URL de destino (destino do link)",
   "generate_random_label": "Gerar parte final automaticamente",
   "generate_random_label_helper": "A parte final do link será gerada automaticamente.",
-  "short_ex": "Ex"
+  "short_ex": "Ex",
+  "http_not_valid_protocol": "O protocolo 'http' não é permitido. Utilize URLs com 'https' ou envie a URL sem protocolo que cuidamos disso para você.",
+  "required_link_label": "É obrigatório o envio do texto que será usado na parte final do link",
+  "label_already_register": "Este texto para o final do link já está em uso. Por favor, escolha outro",
+  "success_create_shortener": "Seu link encurtado foi criado com sucesso!"
 }

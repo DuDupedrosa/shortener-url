@@ -4,8 +4,6 @@ import z from "zod";
 import { PrismaClient } from "@prisma/client";
 import { genSaltSync, hashSync } from "bcryptjs";
 import { formatZodErrors } from "../helpers/methods/formatZodErros";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
 
 const prisma = new PrismaClient();
 
@@ -17,14 +15,6 @@ const registerSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    // const session = await getServerSession(authOptions);
-    // if (!session) {
-    //   return NextResponse.json(
-    //     { message: "unauthorized" },
-    //     { status: HttpStatusEnum.UNAUTHORIZED }
-    //   );
-    // }
-
     const body = await req.json();
 
     const dto = {

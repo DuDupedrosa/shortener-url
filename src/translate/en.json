@@ -52,5 +52,9 @@
   "destination_url": "Destination URL (link target)",
   "generate_random_label": "Auto-generate short link",
   "generate_random_label_helper": "The end of the link will be generated automatically.",
-  "short_ex": "E.g."
+  "short_ex": "E.g.",
+  "http_not_valid_protocol": "The 'http' protocol is not allowed. Please use URLs with 'https' or just send the URL without a protocol and we’ll handle it for you.",
+  "required_link_label": "It is mandatory to provide the text that will be used at the end of the link.",
+  "label_already_register": "This link ending is already in use. Please choose another.",
+  "success_create_shortener": "Your shortened link was created successfully!"
 }
