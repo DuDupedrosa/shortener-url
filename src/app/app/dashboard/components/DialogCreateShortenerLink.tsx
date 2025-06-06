@@ -125,7 +125,7 @@ export default function DialogCreateShortenerLink() {
                 <input
                   id="random-label"
                   type="checkbox"
-                  className="checkbox checkbox-secondary checkbox-sm"
+                  className="toggle toggle-secondary toggle-sm"
                   {...register("randomLabel", {
                     onChange: (e) => {
                       const checked = e.target.checked;
