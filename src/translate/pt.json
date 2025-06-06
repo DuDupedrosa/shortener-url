@@ -49,5 +49,9 @@
   "close": "Fechar",
   "send": "Enviar",
   "randow_label_description_3": "O início da URL será sempre",
-  "lowercase": "Mínusculas"
+  "lowercase": "Mínusculas",
+  "destination_url": "URL de destino (destino do link)",
+  "generate_random_label": "Gerar parte final automaticamente",
+  "generate_random_label_helper": "A parte final do link será gerada automaticamente.",
+  "short_ex": "Ex"
 }

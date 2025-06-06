@@ -51,6 +51,7 @@ export default function DialogCreateShortenerLink() {
     formState: { errors, isSubmitting },
     getValues,
     setValue,
+    reset,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -72,9 +73,11 @@ export default function DialogCreateShortenerLink() {
   };
 
   function resetValues() {
-    setValue("label", "");
+    reset();
+    setValue("label", undefined);
     setValue("url", "");
     setValue("randowLabel", true);
+    setShowInputLabel(false);
   }
 
   function handleCloseDialog() {
@@ -99,7 +102,7 @@ export default function DialogCreateShortenerLink() {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
           <div className="flex flex-col gap-1">
             <label htmlFor="url" className={labelStyle}>
-              {t("url_original")}
+              {t("destination_url")}
             </label>
             <input
               id="url"
@@ -127,13 +130,30 @@ export default function DialogCreateShortenerLink() {
                     onChange: (e) => {
                       const checked = e.target.checked;
                       setShowInputLabel(!checked); // sua lógica extra
+                      if (getValues("label") && !checked) {
+                        setValue("label", undefined);
+                      }
                     },
                   })}
                 />
                 <span className="text-sm font-medium text-gray-700">
-                  {t("generate_randow_label")}
+                  {t("generate_random_label")}
                 </span>
               </label>
+              {!showInputLabel && (
+                <p className="mt-3 flex text-start items-start gap-2 text-xs text-gray-800 leading-snug">
+                  <InformationCircleIcon className="w-4 h-4 flex-shrink-0 text-yellow-600 mt-[3px]" />
+                  <span>
+                    {t("generate_random_label_helper")}
+                    <span className="flex gap-1 items-center">
+                      {t("short_ex")}:
+                      <span className="font-bold">
+                        {window.location.origin}/r2f
+                      </span>
+                    </span>
+                  </span>
+                </p>
+              )}
             </div>
 
             <div
@@ -171,7 +191,7 @@ export default function DialogCreateShortenerLink() {
                     {t("randow_label_description_1")}
                     <span className="block mt-1">
                       {t("example")}:{" "}
-                      <code className="font-bold">{t("my_custom_link")}</code>.
+                      <code className="font-bold">{t("my_custom_link")}</code>
                       <span className="block my-1">
                         {t("randow_label_description_3")}:{" "}
                         <span className="font-bold">
@@ -220,7 +240,7 @@ export default function DialogCreateShortenerLink() {
             <button
               disabled={loading}
               type="submit"
-              className="btn h-10 btn-success sm:flex-1"
+              className="btn h-10 btn-primary sm:flex-1"
             >
               {loading && <span className="loading loading-spinner"></span>}
               {t("send")}
