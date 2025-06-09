@@ -2,19 +2,22 @@
 
 import DialogCreateShortenerLink from "@/app/app/dashboard/components/DialogCreateShortenerLink";
 import IconHand from "@/assets/image/hand-hello.png";
+import { truncateText } from "@/helper/methods/truncateText";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-export default function EmptyDashboard({ userName }: { userName: string }) {
+export default function EmptyDashboard({
+  userName,
+  onCreateShortener,
+}: {
+  userName: string;
+  onCreateShortener: () => void;
+}) {
   const { t } = useTranslation();
-
-  function truncateText(text: string, maxLength: number) {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  }
 
   function handleOpenDialogCreateShortenerLink() {
     const dialog = document.getElementById(
-      "my_modal_4"
+      "dialog_create_shortener"
     ) as HTMLDialogElement | null;
     if (dialog) dialog.showModal();
   }
@@ -39,8 +42,7 @@ export default function EmptyDashboard({ userName }: { userName: string }) {
               {t("create_link")}
             </button>
           </div>
-          {/* You can open the modal using document.getElementById('ID').showModal() method */}
-          <DialogCreateShortenerLink onSuccess={() => console.log("sucesso")} />
+          <DialogCreateShortenerLink onSuccess={() => onCreateShortener()} />
         </div>
       </div>
     </div>

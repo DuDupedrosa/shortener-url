@@ -56,5 +56,16 @@
   "http_not_valid_protocol": "The 'http' protocol is not allowed. Please use URLs with 'https' or just send the URL without a protocol and we’ll handle it for you.",
   "required_link_label": "It is mandatory to provide the text that will be used at the end of the link.",
   "label_already_register": "This link ending is already in use. Please choose another.",
-  "success_create_shortener": "Your shortened link was created successfully!"
+  "success_create_shortener": "Your shortened link was created successfully!",
+  "dashboard_intro": "Here are your shortened links. You can easily copy, edit or remove any of them.",
+  "shortener_url": "Shortened URL",
+  "original_url": "Original URL",
+  "created_at": "Created at",
+  "last_update": "Last updated",
+  "edit": "Edit",
+  "delete": "Delete",
+  "copy": "Copy",
+  "copied_success": "Copied successfully!",
+  "add_new": "Add new link",
+  "open_new_window": "open in new tab"
 }

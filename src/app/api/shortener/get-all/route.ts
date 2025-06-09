@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HttpStatusEnum } from "../../helpers/enums/HttpStatusEnum";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -16,26 +16,28 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({
+    const loggedUser = await prisma.user.findUnique({
       where: { email: session.user.email?.trim() },
     });
 
-    if (!user) {
+    if (!loggedUser) {
       return NextResponse.json(
-        { message: "not_found_user" },
+        { message: "user_not_found" },
         { status: HttpStatusEnum.NOT_FOUND }
       );
     }
 
-    const { password, ...response } = user;
+    const shorteners = await prisma.shortener.findMany({
+      where: { userId: loggedUser.id },
+    });
 
     return NextResponse.json(
-      { payload: response },
+      { payload: shorteners },
       { status: HttpStatusEnum.OK }
     );
   } catch (err) {
     return NextResponse.json(
-      { message: "internal_server_erro|api|user|get-by-email" },
+      { message: "internal_server_erro|api|shortener|get-all" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }

@@ -79,7 +79,7 @@ export default function DialogCreateShortenerLink({
 
   function handleCloseDialog() {
     const dialog = document.getElementById(
-      "my_modal_4"
+      "dialog_create_shortener"
     ) as HTMLDialogElement | null;
     if (dialog) {
       resetValues();
@@ -111,7 +111,7 @@ export default function DialogCreateShortenerLink({
   };
 
   return (
-    <dialog id="my_modal_4" className="modal">
+    <dialog id="dialog_create_shortener" className="modal">
       <div className="modal-box">
         <h2 className="text-2xl font-semibold text-gray-900 mb-1">
           {t("create_shortener_link")}

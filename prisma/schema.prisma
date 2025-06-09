@@ -58,6 +58,8 @@ model Shortener {
   id          String   @id @default(cuid())
   originalUrl String
   label       String   @unique
+  createAt    DateTime @default(now())
+  updateAt    DateTime @default(now())
   userId      String
   user        User     @relation("UserToShorteners", fields: [userId], references: [id], onDelete: Cascade)
 }
