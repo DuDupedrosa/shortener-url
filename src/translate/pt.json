@@ -56,5 +56,16 @@
   "http_not_valid_protocol": "O protocolo 'http' não é permitido. Utilize URLs com 'https' ou envie a URL sem protocolo que cuidamos disso para você.",
   "required_link_label": "É obrigatório o envio do texto que será usado na parte final do link",
   "label_already_register": "Este texto para o final do link já está em uso. Por favor, escolha outro",
-  "success_create_shortener": "Seu link encurtado foi criado com sucesso!"
+  "success_create_shortener": "Seu link encurtado foi criado com sucesso!",
+  "dashboard_intro": "Aqui estão seus links encurtados. Você pode copiar, editar ou remover qualquer um com facilidade.",
+  "shortener_url": "URL encurtada",
+  "original_url": "URL original",
+  "created_at": "Criado em",
+  "last_update": "Ultima atualização",
+  "edit": "Editar",
+  "delete": "Deletar",
+  "copy": "Copiar",
+  "copied_success": "Copiado com sucesso!",
+  "add_new": "Adicionar novo link",
+  "open_new_window": "Abrir em nova guia"
 }

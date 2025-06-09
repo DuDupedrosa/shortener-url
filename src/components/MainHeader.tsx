@@ -23,6 +23,8 @@ export default function MainHeader() {
 
       if (userLocal) {
         setUser(JSON.parse(userLocal));
+
+        console.log("%c⧭", "color: #807160", JSON.parse(userLocal).image);
       }
     }
   }, []);

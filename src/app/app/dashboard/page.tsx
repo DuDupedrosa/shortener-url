@@ -1,25 +1,37 @@
 "use client";
 
 import { http } from "@/app/http";
-import EmptyDashboard from "@/components/EmptyDashboard";
+import EmptyDashboard from "@/app/app/dashboard/components/EmptyDashboard";
 import MainHeader from "@/components/MainHeader";
 import PageLoading from "@/components/PageLoading";
 import { User } from "@/types/user";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import DashboardComponent from "./components/DashboardComponent";
+import { Shortener } from "@/types/shortener";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
-  const [loadingUser, setLoadingUser] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
+  const [shorteners, setShorteners] = useState<Shortener[] | []>([]);
+
+  const fetchShorteners = async () => {
+    setLoading(true);
+    try {
+      const { data } = await http.get("/api/shortener/get-all");
+      setShorteners(data.payload);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserByEmail = async (email: string) => {
-      setLoadingUser(true);
+    const fetchUserByEmail = async () => {
+      setLoading(true);
       try {
-        const userResp = await http.get(
-          `/api/user/get-by-email?email=${email}`
-        );
+        const userResp = await http.get(`/api/user/get-by-email`);
         if (userResp && userResp.data && userResp.data.payload) {
           const userData = userResp.data.payload;
           window.localStorage.setItem("user", JSON.stringify(userData));
@@ -29,13 +41,12 @@ export default function DashboardPage() {
         }
       } catch (err) {
         signOut({ callbackUrl: "/auth?error=unauthorized" });
-      } finally {
-        setLoadingUser(false);
       }
     };
 
-    if (session && session.user.email) {
-      fetchUserByEmail(session.user.email);
+    if (session && session.user) {
+      fetchUserByEmail();
+      fetchShorteners();
     }
   }, [session]);
 
@@ -45,12 +56,26 @@ export default function DashboardPage() {
   // então aqui é seguro assumir que o user está logado.
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {loadingUser && <PageLoading />}
-      {!loadingUser && (
+    <div className="min-h-screen  bg-gray-50">
+      {loading && <PageLoading />}
+      {!loading && user && (
         <div>
           <MainHeader />
-          {user && <EmptyDashboard userName={user.name} />}
+
+          {shorteners && shorteners.length > 0 && (
+            <DashboardComponent
+              userName={user.name}
+              shorteners={shorteners}
+              onCreateShortener={() => fetchShorteners()}
+            />
+          )}
+
+          {(!shorteners || shorteners.length <= 0) && (
+            <EmptyDashboard
+              userName={user.name}
+              onCreateShortener={() => fetchShorteners()}
+            />
+          )}
         </div>
       )}
     </div>
