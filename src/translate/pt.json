@@ -67,5 +67,8 @@
   "copy": "Copiar",
   "copied_success": "Copiado com sucesso!",
   "add_new": "Adicionar novo link",
-  "open_new_window": "Abrir em nova guia"
+  "open_new_window": "Abrir em nova guia",
+  "success_edit_shortener": "Seu link encurtado foi alterado com sucesso!",
+  "edit_shortener_link": "Editar link encurtado",
+  "edit_shortener_link_subtitle": "Preencha os campos abaixo para editar sua URL personalizada."
 }

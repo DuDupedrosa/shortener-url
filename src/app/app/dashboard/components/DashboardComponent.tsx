@@ -7,23 +7,42 @@ import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import DialogCreateShortenerLink from "./DialogCreateShortenerLink";
+import DialogEditShortenerLink from "./DialogEditShortenerLink";
+import { useState } from "react";
 
 export default function DashboardComponent({
   shorteners,
   userName,
   onCreateShortener,
+  onEditShortener,
 }: {
   shorteners: Shortener[];
   userName: string;
   onCreateShortener: () => void;
+  onEditShortener: () => void;
 }) {
   const { t } = useTranslation();
+  const [shortenerToEdit, setShortenerToEdit] = useState<Shortener | null>(
+    null
+  );
 
   function handleAddNewLink() {
     const dialog = document.getElementById(
       "dialog_create_shortener"
     ) as HTMLDialogElement | null;
     if (dialog) dialog.showModal();
+  }
+
+  function handleEditLink() {
+    const dialog = document.getElementById(
+      "dialog_edit_shortener"
+    ) as HTMLDialogElement | null;
+    if (dialog) dialog.showModal();
+  }
+
+  function handleEditShortener(data: Shortener) {
+    setShortenerToEdit(data);
+    handleEditLink();
   }
 
   return (
@@ -48,7 +67,15 @@ export default function DashboardComponent({
 
       <div className="flex gap-5 flex-wrap items-stretch">
         {shorteners.map((shortener: Shortener, i: number) => {
-          return <ShortenerCard shortener={shortener} key={i} />;
+          return (
+            <ShortenerCard
+              handleEditShortener={(data: Shortener) =>
+                handleEditShortener(data)
+              }
+              shortener={shortener}
+              key={i}
+            />
+          );
         })}
         <div
           onClick={() => handleAddNewLink()}
@@ -57,11 +84,16 @@ export default function DashboardComponent({
         >
           <PlusIcon className="text-gray-500 w-8" />
           <p className="font-medium text-center text-lg text-gray-500">
-            Adicionar novo link
+            {t("add_new")}
           </p>
         </div>
       </div>
       <DialogCreateShortenerLink onSuccess={() => onCreateShortener()} />
+      <DialogEditShortenerLink
+        onCloseDialog={() => setShortenerToEdit(null)}
+        onSuccess={() => onEditShortener()}
+        shortener={shortenerToEdit}
+      />
     </div>
   );
 }
