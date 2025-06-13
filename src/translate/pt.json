@@ -74,5 +74,13 @@
   "not_allowed_edit_label": "O label (identificador da URL) não pode ser editado após a criação. Para mudar, exclua o link e crie um novo com o label desejado.",
   "cancel": "Cancelar",
   "are_you_sure_delete_link": "Você tem certeza que deseja deletar esse link?",
-  "delete_success_link": "Link deletado com sucesso!"
+  "delete_success_link": "Link deletado com sucesso!",
+  "redirect_failed": "Redirecionamento falhou",
+  "error_intro": "Opa, algo deu errado. Veja abaixo algumas possíveis causas:",
+  "error_link_incorrect": "O link está incorreto ou incompleto.",
+  "error_link_removed": "Talvez ele tenha sido removido ou expirado.",
+  "error_link_confirm": "Se alguém te passou, confirme se o link está certo.",
+  "error_server_unstable": "O servidor pode estar passando por instabilidade. Tente de novo em breve.",
+  "try_again": "Tentar novamente",
+  "loading_error_info": "Carregando informações do erro..."
 }

@@ -15,7 +15,7 @@ export default function ChangeLanguage() {
   }
 
   return (
-    <div className="dropdown dropdown-end dropdown-hover absolute z-50 right-5">
+    <div className="dropdown dropdown-end dropdown-hover absolute z-50 right-5 top-5">
       <div
         tabIndex={0}
         role="button"
