@@ -9,9 +9,17 @@ import validator from "validator";
 import { nanoid } from "nanoid";
 
 const prisma = new PrismaClient();
-
+const unauthorized = "unauthorized";
+const requiredBody = "required_body";
+const invalidData = "invalid_data";
+const invalidUrl = "invalid_url";
+const httpNotValidProtocol = "http_not_valid_protocol";
+const requiredValidCuid = "required_valid_cuid";
+const notFoundShortener = "not_found_shortener";
 const registerSchema = z.object({
-  url: z.string().min(1, { message: "required_url" }),
+  url: z.string().refine((val) => validator.isURL(val, {}), {
+    message: invalidUrl,
+  }),
   label: z.string().optional(),
   randomLabel: z.boolean(),
 });
@@ -21,7 +29,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
-        { message: "unauthorized" },
+        { message: unauthorized },
         { status: HttpStatusEnum.UNAUTHORIZED }
       );
     }
@@ -29,12 +37,12 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     if (!body) {
       return NextResponse.json(
-        { message: "required_body" },
+        { message: requiredBody },
         { status: HttpStatusEnum.BAD_REQUEST }
       );
     }
 
-    const dto = {
+    let dto = {
       url: body.url?.trim(),
       label: body.label?.trim().toLowerCase(),
       randomLabel: body.randomLabel,
@@ -44,21 +52,14 @@ export async function POST(req: NextRequest) {
     if (!result.success) {
       const error = formatZodErrors(result.error);
       return NextResponse.json(
-        { message: "invalid_data", error },
-        { status: HttpStatusEnum.BAD_REQUEST }
-      );
-    }
-
-    if (!validator.isURL(dto.url, { require_protocol: false })) {
-      return NextResponse.json(
-        { message: "invalid_url" },
+        { message: invalidData, error },
         { status: HttpStatusEnum.BAD_REQUEST }
       );
     }
 
     if (dto.url.toLowerCase().startsWith("http://")) {
       return NextResponse.json(
-        { message: "http_not_valid_protocol" },
+        { message: httpNotValidProtocol },
         { status: HttpStatusEnum.BAD_REQUEST }
       );
     }
@@ -123,6 +124,168 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     return NextResponse.json(
       { message: "internal_server_erro|api|shortener|create" },
+      { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
+    );
+  }
+}
+
+const updateSchema = z.object({
+  url: z.string().refine((val) => validator.isURL(val, {}), {
+    message: invalidUrl,
+  }),
+  id: z.string().cuid({ message: requiredValidCuid }),
+});
+export async function PATCH(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { message: unauthorized },
+        { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
+    const body = await req.json();
+    if (!body) {
+      return NextResponse.json(
+        { message: requiredBody },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    const dto = {
+      url: body.url?.trim(),
+      id: body.id,
+    };
+
+    const result = updateSchema.safeParse(dto);
+    if (!result.success) {
+      const error = formatZodErrors(result.error);
+      return NextResponse.json(
+        { message: invalidData, error },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    const shortener = await prisma.shortener.findUnique({
+      where: { id: dto.id },
+      include: { user: true },
+    });
+
+    if (!shortener) {
+      return NextResponse.json(
+        { message: notFoundShortener },
+        { status: HttpStatusEnum.NOT_FOUND }
+      );
+    }
+
+    if (shortener.user.email !== session.user.email) {
+      return NextResponse.json(
+        { message: unauthorized },
+        { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
+    if (dto.url === shortener.originalUrl) {
+      let { user, ...resp } = shortener;
+      return NextResponse.json(
+        { payload: resp },
+        { status: HttpStatusEnum.OK }
+      );
+    }
+
+    if (dto.url.toLowerCase().startsWith("http://")) {
+      return NextResponse.json(
+        { message: httpNotValidProtocol },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (!validator.isURL(dto.url, { require_protocol: true })) {
+      dto.url = `https://${dto.url}`;
+    }
+
+    const updatedShortener = await prisma.shortener.update({
+      where: { id: shortener.id },
+      data: {
+        originalUrl: dto.url,
+      },
+    });
+
+    return NextResponse.json(
+      { payload: updatedShortener },
+      { status: HttpStatusEnum.OK }
+    );
+  } catch (err) {
+    return NextResponse.json(
+      { message: "internal_server_erro|api|shortener|update" },
+      { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
+    );
+  }
+}
+
+const deleteSchema = z.object({
+  id: z.string().cuid({ message: requiredValidCuid }),
+});
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { message: unauthorized },
+        { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
+    const url = new URL(req.url);
+    const searchParams = url.searchParams;
+    const id = searchParams.get("id");
+
+    const dto = {
+      id,
+    };
+
+    const result = deleteSchema.safeParse(dto);
+    if (!result.success) {
+      const error = formatZodErrors(result.error);
+      return NextResponse.json(
+        { message: invalidData, error },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "id_not_null_or_empty" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
+    const shortener = await prisma.shortener.findUnique({
+      where: { id },
+      include: { user: true },
+    });
+
+    if (!shortener) {
+      return NextResponse.json(
+        { message: notFoundShortener },
+        { status: HttpStatusEnum.NOT_FOUND }
+      );
+    }
+
+    if (shortener.user.email !== session.user.email) {
+      return NextResponse.json(
+        { message: unauthorized },
+        { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
+    await prisma.shortener.delete({ where: { id } });
+
+    return NextResponse.json({ payload: null }, { status: HttpStatusEnum.OK });
+  } catch (err) {
+    return NextResponse.json(
+      { message: "internal_server_erro|api|shortener|delete" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }

@@ -37,8 +37,8 @@ export default function DialogDeleteShortenerLink({
     setLoading(true);
     try {
       if (!shortener) return;
-      await http.delete(`/api/shortener/${shortener.id}`);
-      toast.success(t("delete_success"));
+      await http.delete(`/api/shortener/?id=${shortener.id}`);
+      toast.success(t("delete_success_link"));
       handleCloseDialog();
       onSuccess();
     } catch (err) {
