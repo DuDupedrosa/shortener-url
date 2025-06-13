@@ -67,5 +67,12 @@
   "copy": "Copy",
   "copied_success": "Copied successfully!",
   "add_new": "Add new link",
-  "open_new_window": "open in new tab"
+  "open_new_window": "open in new tab",
+  "success_edit_shortener": "Your shortened link was edited successfully!",
+  "edit_shortener_link": "Edit shortened link",
+  "edit_shortener_link_subtitle": "Fill in the fields below to edit your custom URL.",
+  "not_allowed_edit_label": "The label (URL identifier) cannot be edited after creation. To change it, delete the link and create a new one with the desired label.",
+  "cancel": "Cancel",
+  "are_you_sure_delete_link": "Are you sure you want to delete this link?",
+  "delete_success_link": "Link deleted with success!"
 }

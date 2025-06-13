@@ -64,9 +64,9 @@ export default function DashboardPage() {
 
           {shorteners && shorteners.length > 0 && (
             <DashboardComponent
+              onReFetch={() => fetchShorteners()}
               userName={user.name}
               shorteners={shorteners}
-              onCreateShortener={() => fetchShorteners()}
             />
           )}
 

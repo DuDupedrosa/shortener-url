@@ -9,7 +9,15 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 
-export default function ShortenerCard({ shortener }: { shortener: Shortener }) {
+export default function ShortenerCard({
+  shortener,
+  handleEditShortener,
+  handleDeleteShortener,
+}: {
+  shortener: Shortener;
+  handleEditShortener: (shortener: Shortener) => void;
+  handleDeleteShortener: (shortener: Shortener) => void;
+}) {
   const { t, i18n } = useTranslation();
 
   return (
@@ -87,12 +95,14 @@ export default function ShortenerCard({ shortener }: { shortener: Shortener }) {
 
       <div className="flex justify-end gap-1 mt-1">
         <button
+          onClick={() => handleEditShortener(shortener)}
           title={t("edit")}
           className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white transition-colors border-none"
         >
           <PencilSquareIcon className="h-5 w-5" />
         </button>
         <button
+          onClick={() => handleDeleteShortener(shortener)}
           title={t("delete")}
           className="btn btn-sm bg-red-500 hover:bg-red-600 text-white transition-colors border-none"
         >
