@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { http } from "@/app/http";
 import { AxiosError, HttpStatusCode } from "axios";
 import { toast } from "sonner";
+import AlertError from "@/components/AlertError";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -186,25 +187,7 @@ export default function DialogCreateShortenerLink({
                 <label htmlFor="label" className={labelStyle}>
                   {t("url_custon")}
                 </label>
-                <input
-                  id="label"
-                  type="text"
-                  className={inputStyle}
-                  placeholder="ex: minha-url-curta"
-                  {...register("label", {
-                    onChange: (e) => {
-                      const input = e.target as HTMLInputElement;
-                      let val = input.value.toLowerCase();
-                      val = val.replace(/[^a-z0-9-]/g, ""); // deixa só letras, números e hífen
-                      val = val.replace(/-{2,}/g, "-"); // remove hífens duplos (--)
-                      input.value = val;
-                    },
-                  })}
-                />
-                {errors.label?.message && (
-                  <ErrorInputMessage message={errors.label.message} />
-                )}
-                <p className="mt-2 flex text-start items-start gap-2 text-sm text-gray-800 leading-snug">
+                <p className="mb-2 flex text-start items-start gap-2 text-xs text-gray-800 leading-snug">
                   <InformationCircleIcon className="w-5 h-5 flex-shrink-0 text-yellow-600 mt-[3px]" />
                   <span>
                     {t("random_label_description_1")}
@@ -224,28 +207,29 @@ export default function DialogCreateShortenerLink({
                     </span>
                   </span>
                 </p>
+                <input
+                  id="label"
+                  type="text"
+                  className={inputStyle}
+                  placeholder="ex: minha-url-curta"
+                  {...register("label", {
+                    onChange: (e) => {
+                      const input = e.target as HTMLInputElement;
+                      let val = input.value.toLowerCase();
+                      val = val.replace(/[^a-z0-9-]/g, ""); // deixa só letras, números e hífen
+                      val = val.replace(/-{2,}/g, "-"); // remove hífens duplos (--)
+                      input.value = val;
+                    },
+                  })}
+                />
+                {errors.label?.message && (
+                  <ErrorInputMessage message={errors.label.message} />
+                )}
               </div>
             </div>
           </div>
 
-          {alert && alert.length > 0 && (
-            <div role="alert" className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 shrink-0 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>{alert}</span>
-            </div>
-          )}
+          {alert && alert.length > 0 && <AlertError message={alert} />}
 
           <div className="pt-4 flex flex-col sm:flex-row gap-3">
             <button

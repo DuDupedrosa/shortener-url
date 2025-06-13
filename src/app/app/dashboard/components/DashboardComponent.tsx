@@ -9,40 +9,40 @@ import { useTranslation } from "react-i18next";
 import DialogCreateShortenerLink from "./DialogCreateShortenerLink";
 import DialogEditShortenerLink from "./DialogEditShortenerLink";
 import { useState } from "react";
+import DialogDeleteShortenerLink from "./DialogDeleteShortenerLink";
 
 export default function DashboardComponent({
   shorteners,
   userName,
-  onCreateShortener,
-  onEditShortener,
+  onReFetch,
 }: {
   shorteners: Shortener[];
   userName: string;
-  onCreateShortener: () => void;
-  onEditShortener: () => void;
+  onReFetch: () => void;
 }) {
   const { t } = useTranslation();
   const [shortenerToEdit, setShortenerToEdit] = useState<Shortener | null>(
     null
   );
+  const [shortenerToDelete, setShortenerToDelete] = useState<Shortener | null>(
+    null
+  );
 
-  function handleAddNewLink() {
+  function openDialog(dialogId: string) {
     const dialog = document.getElementById(
-      "dialog_create_shortener"
-    ) as HTMLDialogElement | null;
-    if (dialog) dialog.showModal();
-  }
-
-  function handleEditLink() {
-    const dialog = document.getElementById(
-      "dialog_edit_shortener"
+      dialogId
     ) as HTMLDialogElement | null;
     if (dialog) dialog.showModal();
   }
 
   function handleEditShortener(data: Shortener) {
     setShortenerToEdit(data);
-    handleEditLink();
+    openDialog("dialog_edit_shortener");
+  }
+
+  function handleDeleteShortener(data: Shortener) {
+    setShortenerToDelete(data);
+    openDialog("dialog_delete_shortener");
   }
 
   return (
@@ -57,7 +57,7 @@ export default function DashboardComponent({
         </div>
 
         <button
-          onClick={() => handleAddNewLink()}
+          onClick={() => openDialog("dialog_create_shortener")}
           className="btn flex md:hidden max-w-[220px]  btn-primary"
         >
           <PlusCircleIcon className="w-6" />
@@ -69,6 +69,9 @@ export default function DashboardComponent({
         {shorteners.map((shortener: Shortener, i: number) => {
           return (
             <ShortenerCard
+              handleDeleteShortener={(data: Shortener) =>
+                handleDeleteShortener(data)
+              }
               handleEditShortener={(data: Shortener) =>
                 handleEditShortener(data)
               }
@@ -78,7 +81,7 @@ export default function DashboardComponent({
           );
         })}
         <div
-          onClick={() => handleAddNewLink()}
+          onClick={() => openDialog("dialog_create_shortener")}
           className="border-2 border-dashed border-neutral rounded-xl cursor-pointer 
       hover:bg-gray-100 transition-all flex flex-col justify-center items-center gap-3 w-full sm:w-[350px] mt-auto h-[180px]"
         >
@@ -88,11 +91,16 @@ export default function DashboardComponent({
           </p>
         </div>
       </div>
-      <DialogCreateShortenerLink onSuccess={() => onCreateShortener()} />
+      <DialogCreateShortenerLink onSuccess={() => onReFetch()} />
       <DialogEditShortenerLink
         onCloseDialog={() => setShortenerToEdit(null)}
-        onSuccess={() => onEditShortener()}
+        onSuccess={() => onReFetch()}
         shortener={shortenerToEdit}
+      />
+      <DialogDeleteShortenerLink
+        onCloseDialog={() => setShortenerToDelete(null)}
+        onSuccess={() => onReFetch()}
+        shortener={shortenerToDelete}
       />
     </div>
   );

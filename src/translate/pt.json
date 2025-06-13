@@ -70,5 +70,9 @@
   "open_new_window": "Abrir em nova guia",
   "success_edit_shortener": "Seu link encurtado foi alterado com sucesso!",
   "edit_shortener_link": "Editar link encurtado",
-  "edit_shortener_link_subtitle": "Preencha os campos abaixo para editar sua URL personalizada."
+  "edit_shortener_link_subtitle": "Preencha os campos abaixo para editar sua URL personalizada.",
+  "not_allowed_edit_label": "O label (identificador da URL) não pode ser editado após a criação. Para mudar, exclua o link e crie um novo com o label desejado.",
+  "cancel": "Cancelar",
+  "are_you_sure_delete_link": "Você tem certeza que deseja deletar esse link?",
+  "delete_success_link": "Link deletado com sucesso!"
 }

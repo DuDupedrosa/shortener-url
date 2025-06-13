@@ -12,6 +12,7 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { toast } from "sonner";
 import { Shortener } from "@/types/shortener";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import AlertError from "@/components/AlertError";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -132,10 +133,9 @@ export default function DialogEditShortenerLink({
               <label htmlFor="label" className={labelStyle}>
                 {t("url_custon")}
               </label>
-              <p className="mt-2 flex text-start items-start gap-2 text-sm font-semibold text-gray-800 leading-snug">
+              <p className="mt-2 flex text-start items-start gap-2 text-xs font-semibold text-gray-800 leading-snug">
                 <InformationCircleIcon className="w-5 h-5 flex-shrink-0 text-yellow-600 mt-[3px]" />
-                O identificador personalizado (label) não pode ser editado após
-                a criação do link. Para alterá-lo, exclua e crie um novo.
+                {t("not_allowed_edit_label")}
               </p>
               <input
                 disabled={true}
@@ -145,29 +145,9 @@ export default function DialogEditShortenerLink({
                 placeholder="ex: minha-url-curta"
                 {...register("label")}
               />
-              {/* {errors.label?.message && (
-                <ErrorInputMessage message={errors.label.message} />
-              )} */}
             </div>
 
-            {alert && alert.length > 0 && (
-              <div role="alert" className="alert alert-error">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{alert}</span>
-              </div>
-            )}
+            {alert && alert.length > 0 && <AlertError message={alert} />}
 
             <div className="pt-4 flex flex-col sm:flex-row gap-3">
               <button

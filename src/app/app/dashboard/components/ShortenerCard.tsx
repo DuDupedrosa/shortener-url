@@ -12,9 +12,11 @@ import { useTranslation } from "react-i18next";
 export default function ShortenerCard({
   shortener,
   handleEditShortener,
+  handleDeleteShortener,
 }: {
   shortener: Shortener;
   handleEditShortener: (shortener: Shortener) => void;
+  handleDeleteShortener: (shortener: Shortener) => void;
 }) {
   const { t, i18n } = useTranslation();
 
@@ -100,6 +102,7 @@ export default function ShortenerCard({
           <PencilSquareIcon className="h-5 w-5" />
         </button>
         <button
+          onClick={() => handleDeleteShortener(shortener)}
           title={t("delete")}
           className="btn btn-sm bg-red-500 hover:bg-red-600 text-white transition-colors border-none"
         >
