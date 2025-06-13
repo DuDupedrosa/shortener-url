@@ -29,6 +29,9 @@ export async function GET(req: NextRequest) {
 
     const shorteners = await prisma.shortener.findMany({
       where: { userId: loggedUser.id },
+      orderBy: {
+        createAt: "desc",
+      },
     });
 
     return NextResponse.json(

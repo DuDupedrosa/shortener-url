@@ -75,7 +75,7 @@ export default function DialogEditShortenerLink({
     setLoading(true);
     setAlert("");
     try {
-      let payload = { url: data.url };
+      let payload = { url: data.url, id: shortener?.id };
       await http.patch("/api/shortener", payload);
       toast.success(t("success_edit_shortener"));
       handleCloseDialog();
