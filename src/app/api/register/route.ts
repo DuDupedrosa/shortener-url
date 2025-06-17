@@ -5,16 +5,18 @@ import { PrismaClient } from "@prisma/client";
 import { genSaltSync, hashSync } from "bcryptjs";
 import { formatZodErrors } from "../helpers/methods/formatZodErros";
 import { EmailTemplate } from "../../../components/email-template";
-import { Resend } from "resend";
-import * as React from "react";
+//import { Resend } from "resend";
+//import * as React from "react";
+//import { getLang } from "../helpers/methods/getLang";
 
 const prisma = new PrismaClient();
-const resend = new Resend(process.env.RESEND_API_KEY);
+//const resend = new Resend(process.env.RESEND_API_KEY);
 
 const registerSchema = z.object({
   name: z.string().min(1, { message: "required_name" }),
   email: z.string().email({ message: "invalid_email" }),
   password: z.string().min(6, { message: "min_password_6_chars" }),
+  //lang: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -25,6 +27,7 @@ export async function POST(req: NextRequest) {
       name: body.name?.trim(),
       email: body.email?.trim(),
       password: body.password?.trim(),
+      //lang: body.lang?.trim(),
     };
 
     const result = registerSchema.safeParse(dto);
@@ -64,14 +67,18 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    try {
-      await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [dto.email],
-        subject: "Bem vindo",
-        react: EmailTemplate({ firstName: dto.name }) as React.ReactElement,
-      });
-    } catch (emailErr) {}
+    // try {
+    //   await resend.emails.send({
+    //     from: "SnipplyURL <no-reply@snipplyurl.com.br>",
+    //     to: [dto.email],
+    //     subject: "Bem vindo",
+    //     react: EmailTemplate({
+    //       firstName: dto.name,
+    //       lang: getLang(dto.lang),
+    //     }) as React.ReactElement,
+    //     replyTo: "snipplyurl@gmail.com",
+    //   });
+    // } catch (emailErr) {}
 
     return NextResponse.json(
       { payload: null },
