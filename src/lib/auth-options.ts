@@ -3,8 +3,11 @@ import { compare } from "bcryptjs";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
+import { Resend } from "resend";
+import EmailTemplate from "@/components/email-template";
 
 const prisma = new PrismaClient();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -87,6 +90,24 @@ export const authOptions: NextAuthOptions = {
               image: user.image,
             },
           });
+
+          try {
+            const from = process.env.RESEND_FROM;
+            const replyTo = process.env.RESEND_REPLY_TO;
+
+            if (from && replyTo) {
+              await resend.emails.send({
+                from,
+                to: [user.email],
+                subject: "Bem vindo",
+                react: EmailTemplate({
+                  firstName: user.name ?? user.email,
+                  lang: "pt",
+                }) as React.ReactElement,
+                replyTo,
+              });
+            }
+          } catch (emailErr) {}
         }
 
         if (dbUser && !dbUser.image) {
