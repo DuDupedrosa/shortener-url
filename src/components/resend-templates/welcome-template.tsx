@@ -1,14 +1,13 @@
 import * as React from "react";
 
-interface EmailTemplateProps {
+interface WemcolmeEmailTemplateProps {
   firstName: string;
   lang?: "pt" | "en";
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  firstName,
-  lang = "pt",
-}) => {
+export const WelcomeEmailTemplate: React.FC<
+  Readonly<WemcolmeEmailTemplateProps>
+> = ({ firstName, lang = "pt" }) => {
   const texts = {
     pt: {
       greeting: `Olá, ${firstName}!`,
@@ -115,4 +114,4 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   );
 };
 
-export default EmailTemplate;
+export default WelcomeEmailTemplate;

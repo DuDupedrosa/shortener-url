@@ -4,7 +4,7 @@ import z from "zod";
 import { PrismaClient } from "@prisma/client";
 import { genSaltSync, hashSync } from "bcryptjs";
 import { formatZodErrors } from "../helpers/methods/formatZodErros";
-import { EmailTemplate } from "../../../components/email-template";
+//import { WelcomeEmailTemplate } from "../../../components/welcome-template";
 //import { Resend } from "resend";
 //import * as React from "react";
 //import { getLang } from "../helpers/methods/getLang";

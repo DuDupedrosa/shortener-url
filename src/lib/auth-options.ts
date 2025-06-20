@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 import { Resend } from "resend";
-import EmailTemplate from "@/components/email-template";
+import WelcomeEmailTemplate from "@/components/resend-templates/welcome-template";
 
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -50,6 +50,11 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) {
           throw new Error("invalid_password");
         }
+
+        if (!user.otpEnable) {
+          throw new Error("required_otp");
+        }
+
         const { password, ...rest } = user;
         return rest;
       },
@@ -88,6 +93,7 @@ export const authOptions: NextAuthOptions = {
               name: user.name,
               email: user.email,
               image: user.image,
+              otpEnable: true,
             },
           });
 
@@ -100,7 +106,7 @@ export const authOptions: NextAuthOptions = {
                 from,
                 to: [user.email],
                 subject: "Bem vindo",
-                react: EmailTemplate({
+                react: WelcomeEmailTemplate({
                   firstName: user.name ?? user.email,
                   lang: "pt",
                 }) as React.ReactElement,
