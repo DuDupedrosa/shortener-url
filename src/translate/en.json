@@ -82,5 +82,8 @@
   "error_link_confirm": "If someone sent it to you, please confirm the link is correct.",
   "error_server_unstable": "The server may be experiencing instability. Please try again soon.",
   "try_again": "Try again",
-  "loading_error_info": "Loading error information..."
+  "loading_error_info": "Loading error information...",
+  "expired_code": "The code has expired. Click 'Resend' to generate a new one.",
+  "invalid_code": "The code you entered is incorrect. Please check and try again.",
+  "email_success_validate": "Email successfully verified"
 }

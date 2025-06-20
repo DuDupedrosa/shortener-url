@@ -1,5 +1,12 @@
+import { HttpStatusEnum } from "@/app/api/helpers/enums/HttpStatusEnum";
+import { http } from "@/app/http";
+import AlertError from "@/components/AlertError";
+import { AxiosError } from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 export default function OTPComponent({
   email,
@@ -14,8 +21,11 @@ export default function OTPComponent({
   const [code3, setCode3] = useState<string>("");
   const [code4, setCode4] = useState<string>("");
   const [enabledSubmitButton, setEnableSubmitButton] = useState<boolean>(false);
-  const [codeExpiration, setCodeExpiration] = useState(50); // 5 minutos (em segundos)
+  const [codeExpiration, setCodeExpiration] = useState(300); // 5 minutos (em segundos)
   const [resendCodeCountdown, setResendCodeCountdown] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   function startResendCodeCountdown(duration = 60) {
     setResendCodeCountdown(duration);
@@ -31,7 +41,8 @@ export default function OTPComponent({
   }
 
   function limitCaractere(value: string) {
-    let sanitizedValue = value.replace(/\s/g, ""); // remove TODOS os espaços
+    setErrorMessage("");
+    let sanitizedValue = value.replace(/[^a-zA-Z0-9]/g, "");
 
     if (sanitizedValue.length > 1) {
       sanitizedValue = value.slice(0, 1);
@@ -51,12 +62,66 @@ export default function OTPComponent({
     }
   }
 
+  // chamar api aqui
   async function handleReSendCode() {
-    setCodeExpiration(50);
+    setErrorMessage("");
+    setCodeExpiration(300);
     startResendCodeCountdown();
   }
 
-  const onSubmit = async () => {};
+  function cleanValuesOnError() {
+    setCode1("");
+    setCode2("");
+    setCode3("");
+    setCode4("");
+
+    const code1 = document.getElementById("code_1");
+
+    if (code1) {
+      code1.focus();
+    }
+  }
+
+  const onSubmit = async () => {
+    setLoading(true);
+    setErrorMessage("");
+    try {
+      let payload = {
+        email,
+        password,
+        code: `${code1}${code2}${code3}${code4}`,
+      };
+
+      await http.post("/api/otp/validate", payload);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      if (res?.error) {
+        toast.error(t("error_occurred"));
+      } else {
+        toast.success(t("email_success_validate"));
+        router.push("/app/dashboard");
+      }
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (
+          err.response &&
+          err.response.status === HttpStatusEnum.BAD_REQUEST
+        ) {
+          const message = err.response.data.message;
+          if (message === "expired_code") {
+            cleanValuesOnError();
+          }
+          setEnableSubmitButton(false);
+          setErrorMessage(message);
+          toast.error(t(message));
+        }
+      }
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (code1 && code2 && code3 && code4) {
@@ -111,7 +176,7 @@ export default function OTPComponent({
 
       <p className="text-base font-normal max-w-lg text-center text-gray-900">
         Por favor, informe nos campos abaixo o código que enviamos para o email:{" "}
-        <span className="font-bold">email@example.com</span>.
+        <span className="font-bold">{email}</span>
       </p>
 
       <form
@@ -155,14 +220,11 @@ export default function OTPComponent({
           </p>
         ) : (
           <p className="text-sm text-center mt-3 text-red-600 font-medium">
-            O código expirou. Clique em{" "}
-            <span
-              onClick={handleReSendCode}
-              className="underline cursor-pointer text-primary"
-            >
-              Reenviar
-            </span>{" "}
-            para receber um novo.
+            O código expirou.
+            <br />
+            <button onClick={handleReSendCode} className="btn btn-primary mt-2">
+              Reenviar Código
+            </button>
           </p>
         )}
 
@@ -188,14 +250,20 @@ export default function OTPComponent({
           </p>
         )}
 
+        {errorMessage && errorMessage.length > 0 && (
+          <AlertError message={t(errorMessage)} />
+        )}
+
         <button
-          disabled={!enabledSubmitButton}
+          disabled={!enabledSubmitButton || loading}
           type="submit"
           title="Enviar código"
           className={`btn btn-primary w-full capitalize mt-8 ${
             !enabledSubmitButton ? "opacity-50 cursor-not-allowed" : ""
           }`}
+          onClick={onSubmit}
         >
+          {loading && <span className="loading loading-spinner"></span>}
           Enviar
         </button>
       </form>
