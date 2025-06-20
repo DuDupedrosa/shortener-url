@@ -1,7 +1,7 @@
 import { HttpStatusEnum } from "@/app/api/helpers/enums/HttpStatusEnum";
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
-import { AxiosError } from "axios";
+import { AxiosError, HttpStatusCode } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ export default function OTPComponent({
   email: string;
   password: string;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [code1, setCode1] = useState<string>("");
   const [code2, setCode2] = useState<string>("");
   const [code3, setCode3] = useState<string>("");
@@ -26,6 +26,20 @@ export default function OTPComponent({
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [reSendCodeLoading, setReSendCodeLoading] = useState<boolean>(false);
+
+  function cleanValues() {
+    setCode1("");
+    setCode2("");
+    setCode3("");
+    setCode4("");
+
+    const code1 = document.getElementById("code_1");
+
+    if (code1) {
+      code1.focus();
+    }
+  }
 
   function startResendCodeCountdown(duration = 60) {
     setResendCodeCountdown(duration);
@@ -62,23 +76,27 @@ export default function OTPComponent({
     }
   }
 
-  // chamar api aqui
   async function handleReSendCode() {
-    setErrorMessage("");
-    setCodeExpiration(300);
-    startResendCodeCountdown();
-  }
-
-  function cleanValuesOnError() {
-    setCode1("");
-    setCode2("");
-    setCode3("");
-    setCode4("");
-
-    const code1 = document.getElementById("code_1");
-
-    if (code1) {
-      code1.focus();
+    setReSendCodeLoading(true);
+    try {
+      let payload = { lang: i18n.language, email, password };
+      await http.post("/api/otp/send", payload);
+      cleanValues();
+      setErrorMessage("");
+      setCodeExpiration(300);
+      startResendCodeCountdown();
+      toast.success("Código reenviado com sucesso");
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (
+          err.response &&
+          err.response.status !== HttpStatusCode.InternalServerError
+        ) {
+          toast.error(t("error_occurred"));
+        }
+      }
+    } finally {
+      setReSendCodeLoading(false);
     }
   }
 
@@ -112,7 +130,7 @@ export default function OTPComponent({
         ) {
           const message = err.response.data.message;
           if (message === "expired_code") {
-            cleanValuesOnError();
+            cleanValues();
           }
           setEnableSubmitButton(false);
           setErrorMessage(message);
@@ -228,8 +246,15 @@ export default function OTPComponent({
           </p>
         )}
 
-        {codeExpiration > 0 && (
-          <p className="text-sm text-center mt-8 font-medium text-gray-900">
+        {reSendCodeLoading && (
+          <p className="text-sm flex justify-center items-center gap-2 text-center mt-8 font-medium text-gray-900">
+            Reenviando código
+            <span className="loading loading-spinner text-primary"></span>
+          </p>
+        )}
+
+        {codeExpiration > 0 && !reSendCodeLoading && (
+          <p className="text-sm text-center mt-8 font-medium text-gray-900 max-w-lg">
             {!resendCodeCountdown ? (
               <>
                 Não recebeu o código?{" "}
@@ -243,7 +268,8 @@ export default function OTPComponent({
               </>
             ) : (
               <span className="text-gray-500">
-                Você poderá reenviar o código em{" "}
+                Código reenviado com sucesso! Caso precise, você poderá reenviar
+                um novo código em:{" "}
                 <span className="font-bold">{resendCodeCountdown}s</span>
               </span>
             )}
