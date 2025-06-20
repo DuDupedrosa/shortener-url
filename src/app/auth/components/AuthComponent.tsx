@@ -11,10 +11,12 @@ import { useEffect, useState } from "react";
 import SignUp from "./SignUp";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import OTPComponent from "./OTPComponent";
 
 const componentStepEnum = {
   SIGN_IN: 1,
   SIGN_UP: 2,
+  OTP: 3,
 };
 
 export default function AuthComponent() {
