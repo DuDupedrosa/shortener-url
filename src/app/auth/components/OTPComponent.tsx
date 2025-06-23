@@ -85,7 +85,7 @@ export default function OTPComponent({
       setErrorMessage("");
       setCodeExpiration(300);
       startResendCodeCountdown();
-      toast.success("Código reenviado com sucesso");
+      toast.success(t("resend_code_with_success"));
     } catch (err) {
       if (err instanceof AxiosError) {
         if (
@@ -119,6 +119,9 @@ export default function OTPComponent({
       if (res?.error) {
         toast.error(t("error_occurred"));
       } else {
+        try {
+          await http.post("/api/otp/welcome", { lang: i18n.language });
+        } catch (err) {}
         toast.success(t("email_success_validate"));
         router.push("/app/dashboard");
       }
@@ -189,22 +192,15 @@ export default function OTPComponent({
   return (
     <div>
       <h2 className="text-center mb-2 text-3xl font-medium text-gray-900">
-        Verifique seu email
+        {t("verify_your_email")}
       </h2>
 
       <p className="text-base font-normal max-w-lg text-center text-gray-900">
-        Por favor, informe nos campos abaixo o código que enviamos para o email:{" "}
+        {t("please_fill_the_code_sended_to_email")}:{" "}
         <span className="font-bold">{email}</span>
       </p>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!enabledSubmitButton) return;
-          // lógica de envio aqui
-        }}
-        className="mt-5"
-      >
+      <form onSubmit={(e) => e.preventDefault()} className="mt-5">
         <div className="flex gap-5 justify-center">
           {[code1, code2, code3, code4].map((code, idx) => (
             <input
@@ -229,8 +225,8 @@ export default function OTPComponent({
         </div>
 
         {codeExpiration > 0 ? (
-          <p className="text-sm text-center mt-3 text-gray-600">
-            O código expira em{" "}
+          <p className="text-sm text-center mt-3  text-gray-600">
+            {t("code_expires_at")}{" "}
             <span className="font-semibold text-primary">
               {String(Math.floor(codeExpiration / 60)).padStart(2, "0")}:
               {String(codeExpiration % 60).padStart(2, "0")}
@@ -238,38 +234,37 @@ export default function OTPComponent({
           </p>
         ) : (
           <p className="text-sm text-center mt-3 text-red-600 font-medium">
-            O código expirou.
+            {t("code_expired")}.
             <br />
             <button onClick={handleReSendCode} className="btn btn-primary mt-2">
-              Reenviar Código
+              {t("resend_code")}
             </button>
           </p>
         )}
 
         {reSendCodeLoading && (
           <p className="text-sm flex justify-center items-center gap-2 text-center mt-8 font-medium text-gray-900">
-            Reenviando código
+            {t("resend_code_progress")}
             <span className="loading loading-spinner text-primary"></span>
           </p>
         )}
 
         {codeExpiration > 0 && !reSendCodeLoading && (
-          <p className="text-sm text-center mt-8 font-medium text-gray-900 max-w-lg">
+          <p className="text-sm text-center mt-8 font-medium text-gray-900">
             {!resendCodeCountdown ? (
               <>
-                Não recebeu o código?{" "}
+                {t("not_receive_code")}?{" "}
                 <button
                   onClick={handleReSendCode}
                   type="button"
                   className="text-primary font-bold underline cursor-pointer transition-colors hover:text-green-600"
                 >
-                  Reenviar
+                  {t("resend")}
                 </button>
               </>
             ) : (
-              <span className="text-gray-500">
-                Código reenviado com sucesso! Caso precise, você poderá reenviar
-                um novo código em:{" "}
+              <span className="text-gray-500 max-w-lg block">
+                {t("resend_code_success_text")}:{" "}
                 <span className="font-bold">{resendCodeCountdown}s</span>
               </span>
             )}
@@ -283,14 +278,14 @@ export default function OTPComponent({
         <button
           disabled={!enabledSubmitButton || loading}
           type="submit"
-          title="Enviar código"
+          title={t("send")}
           className={`btn btn-primary w-full capitalize mt-8 ${
             !enabledSubmitButton ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={onSubmit}
         >
           {loading && <span className="loading loading-spinner"></span>}
-          Enviar
+          {t("send")}
         </button>
       </form>
     </div>

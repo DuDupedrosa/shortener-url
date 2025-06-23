@@ -85,5 +85,16 @@
   "loading_error_info": "Loading error information...",
   "expired_code": "The code has expired. Click 'Resend' to generate a new one.",
   "invalid_code": "The code you entered is incorrect. Please check and try again.",
-  "email_success_validate": "Email successfully verified"
+  "email_success_validate": "Email successfully verified",
+  "resend_code_with_success": "Code resent successfully",
+  "verify_your_email": "Verify your email",
+  "please_fill_the_code_sended_to_email": "Please enter the code we sent to your email below",
+  "code_expires_at": "The code expires in",
+  "code_expired": "The code has expired",
+  "resend_code": "Resend code",
+  "resend_code_progress": "Resending code...",
+  "resend": "Resend",
+  "not_receive_code": "Didn't receive the code?",
+  "resend_code_success_text": "Code resent successfully! If needed, you can request a new one in",
+  "code_send_sucess": "Code sent successfully"
 }

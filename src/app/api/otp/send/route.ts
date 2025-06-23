@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
               : "Código de acesso",
           react: SendOtpCodeTemplate({
             firstName: user.name ?? dto.email,
-            lang: dto.lang,
+            lang: dto.lang ?? LanguageTextEnum.PT,
             code: otpId,
           }) as React.ReactElement,
           replyTo,

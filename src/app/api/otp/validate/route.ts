@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ payload: null }, { status: HttpStatusEnum.OK });
   } catch (err) {
     return NextResponse.json(
-      { message: "internal_server_erro|api|otp|send" },
+      { message: "internal_server_erro|api|otp|validate" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }
