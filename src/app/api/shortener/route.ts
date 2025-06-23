@@ -109,6 +109,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const shorteners = await prisma.shortener.findMany({
+      where: { userId: user.id },
+    });
+
+    if (shorteners && shorteners.length === 5) {
+      return NextResponse.json(
+        { message: "max_limit_5_shorteners" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
     const createdShortener = await prisma.shortener.create({
       data: {
         originalUrl: dto.url,
