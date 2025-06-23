@@ -96,5 +96,6 @@
   "resend": "Reenviar",
   "not_receive_code": "Não recebeu o código",
   "resend_code_success_text": "Código reenviado com sucesso! Caso precise, você poderá reenviar um novo código em",
-  "code_send_sucess": "Código enviado com sucesso"
+  "code_send_sucess": "Código enviado com sucesso",
+  "max_limit_5_shorteners": "Você pode cadastrar até 5 links encurtados. Estamos desenvolvendo uma versão premium, onde esse limite será removido. Por enquanto, você pode excluir links antigos para adicionar novos."
 }

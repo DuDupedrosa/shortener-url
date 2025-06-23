@@ -96,5 +96,6 @@
   "resend": "Resend",
   "not_receive_code": "Didn't receive the code?",
   "resend_code_success_text": "Code resent successfully! If needed, you can request a new one in",
-  "code_send_sucess": "Code sent successfully"
+  "code_send_sucess": "Code sent successfully",
+  "max_limit_5_shorteners": "You can shorten up to 5 links. We're working on a premium version where this limit will be removed. For now, you can delete existing links to add new ones."
 }
