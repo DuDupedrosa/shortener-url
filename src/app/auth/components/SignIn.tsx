@@ -64,7 +64,7 @@ export default function SignIn({
       let payload = { lang: i18n.language, ...data };
       await http.post("/api/otp/send", payload);
       setStep(componentSteps.OTP);
-      toast.success("Código enviado com sucesso");
+      toast.success(t("code_send_sucess"));
     } catch (err) {
       if (err instanceof AxiosError) {
         if (

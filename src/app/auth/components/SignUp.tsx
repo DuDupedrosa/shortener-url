@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import axios, { AxiosError, HttpStatusCode } from "axios";
+import { AxiosError, HttpStatusCode } from "axios";
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
 
