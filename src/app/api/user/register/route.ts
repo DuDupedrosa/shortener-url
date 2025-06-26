@@ -1,22 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { HttpStatusEnum } from "../helpers/enums/HttpStatusEnum";
+import { HttpStatusEnum } from "../../helpers/enums/HttpStatusEnum";
 import z from "zod";
 import { PrismaClient } from "@prisma/client";
 import { genSaltSync, hashSync } from "bcryptjs";
-import { formatZodErrors } from "../helpers/methods/formatZodErros";
-//import { WelcomeEmailTemplate } from "../../../components/welcome-template";
-//import { Resend } from "resend";
-//import * as React from "react";
-//import { getLang } from "../helpers/methods/getLang";
+import { formatZodErrors } from "../../helpers/methods/formatZodErros";
 
 const prisma = new PrismaClient();
-//const resend = new Resend(process.env.RESEND_API_KEY);
 
 const registerSchema = z.object({
   name: z.string().min(1, { message: "required_name" }),
   email: z.string().email({ message: "invalid_email" }),
-  password: z.string().min(6, { message: "min_password_6_chars" }),
-  //lang: z.string().optional(),
+  password: z
+    .string()
+    .min(6, { message: "password_required" })
+    .regex(/[A-Za-z]/, { message: "required_one_alphabetical_caracter" })
+    .regex(/[0-9]/, { message: "required_one_number" })
+    .refine((val) => !/\s/.test(val), {
+      message: "required_password_without_empty_spaces",
+    }),
 });
 
 export async function POST(req: NextRequest) {
@@ -27,7 +28,6 @@ export async function POST(req: NextRequest) {
       name: body.name?.trim(),
       email: body.email?.trim(),
       password: body.password?.trim(),
-      //lang: body.lang?.trim(),
     };
 
     const result = registerSchema.safeParse(dto);
@@ -66,19 +66,6 @@ export async function POST(req: NextRequest) {
         password: hashSync(dto.password, salt),
       },
     });
-
-    // try {
-    //   await resend.emails.send({
-    //     from: "SnipplyURL <no-reply@snipplyurl.com.br>",
-    //     to: [dto.email],
-    //     subject: "Bem vindo",
-    //     react: EmailTemplate({
-    //       firstName: dto.name,
-    //       lang: getLang(dto.lang),
-    //     }) as React.ReactElement,
-    //     replyTo: "snipplyurl@gmail.com",
-    //   });
-    // } catch (emailErr) {}
 
     return NextResponse.json(
       { payload: null },

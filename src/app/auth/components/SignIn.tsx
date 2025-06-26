@@ -31,9 +31,11 @@ interface LoginData {
 export default function SignIn({
   onCreateAccount,
   email,
+  onResetPassword,
 }: {
   onCreateAccount: () => void;
   email: string;
+  onResetPassword: () => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -176,6 +178,14 @@ export default function SignIn({
               <AlertError message={alert} />
             </div>
           )}
+          <span
+            title="Redefinir senha"
+            onClick={onResetPassword}
+            className="underline -mt-4 max-w-max ml-auto transition-colors duration-200 hover:text-primary
+           text-gray-900 text-sm font-normal p-2 text-end cursor-pointer mb-5 block"
+          >
+            Esqueceu sua senha?
+          </span>
           <button
             title="Start session"
             disabled={loading}

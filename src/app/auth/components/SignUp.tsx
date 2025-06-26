@@ -14,24 +14,35 @@ import { useTranslation } from "react-i18next";
 import { AxiosError, HttpStatusCode } from "axios";
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
+import RevealOrHiddenPasswordsComponent from "@/components/RevealOrHiddenPasswordsComponent";
 
 export default function SignUp({
   onSignIn,
   onRegister,
+  onResetPassword,
 }: {
   onSignIn: () => void;
   onRegister: (email: string) => void;
+  onResetPassword: () => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<string>("");
   const { t } = useTranslation();
   const [isRegistered, setIsRegistered] = useState<boolean>(true);
+  const [showPasswords, setShowPasswords] = useState<boolean>(false);
 
   const loginSchema = z
     .object({
       name: z.string().min(1, { message: t("required_field") }),
       email: z.string().email({ message: t("invalid_email") }),
-      password: z.string().min(6, { message: t("min_6_caracteres") }),
+      password: z
+        .string()
+        .min(6, { message: t("min_6_caracteres") })
+        .regex(/[A-Za-z]/, { message: t("required_alphabetical_caracter") })
+        .regex(/[0-9]/, { message: t("required_number_caracter") })
+        .refine((val) => !/\s/.test(val), {
+          message: t("without_empty_spaces"),
+        }),
       confirmPassword: z.string().min(6, { message: t("min_6_caracteres") }),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -45,6 +56,7 @@ export default function SignUp({
     handleSubmit,
     formState: { errors, isSubmitting },
     getValues,
+    setValue,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
@@ -55,7 +67,7 @@ export default function SignUp({
 
     try {
       const { confirmPassword, ...payload } = data;
-      await http.post("/api/register", payload);
+      await http.post("/api/user/register", payload);
       setIsRegistered(true);
     } catch (err) {
       if (
@@ -63,7 +75,7 @@ export default function SignUp({
         err.status === HttpStatusCode.BadRequest
       ) {
         if (err.response) {
-          setAlert(t(err.response.data.message));
+          setAlert(err.response.data.message);
         }
       }
     } finally {
@@ -147,9 +159,19 @@ export default function SignUp({
               <LockClosedIcon className="input-icon-inside-before" />
 
               <input
-                type="password"
+                type={showPasswords ? "text" : "password"}
                 id="password"
-                {...register("password")}
+                {...register("password", {
+                  onChange: (e) => {
+                    const valueWithoutSpaces = e.target.value.replace(
+                      /\s/g,
+                      ""
+                    );
+                    setValue("password", valueWithoutSpaces, {
+                      shouldValidate: true,
+                    });
+                  },
+                })}
                 placeholder={t("password")}
                 aria-label="Password"
               />
@@ -166,9 +188,19 @@ export default function SignUp({
               <LockClosedIcon className="input-icon-inside-before" />
 
               <input
-                type="password"
+                type={showPasswords ? "text" : "password"}
                 id="confirmPassword"
-                {...register("confirmPassword")}
+                {...register("confirmPassword", {
+                  onChange: (e) => {
+                    const valueWithoutSpaces = e.target.value.replace(
+                      /\s/g,
+                      ""
+                    );
+                    setValue("confirmPassword", valueWithoutSpaces, {
+                      shouldValidate: true,
+                    });
+                  },
+                })}
                 placeholder={t("confirm_password")}
                 aria-label="Confirm password"
               />
@@ -180,7 +212,30 @@ export default function SignUp({
               </span>
             )}
           </div>
-          {alert && alert.length > 0 && <AlertError message={alert} />}
+
+          <RevealOrHiddenPasswordsComponent
+            showPasswords={showPasswords}
+            handlePassword={(newValue) => setShowPasswords(newValue)}
+          />
+
+          {alert && alert.length > 0 && (
+            <div className="max-w-xl">
+              <AlertError message={t(alert)} />
+
+              {(alert === "user_not_registered_by_credentials" ||
+                alert === "user_already_registered") && (
+                <div className="-mt-2 mb-8">
+                  <button
+                    onClick={onResetPassword}
+                    type="button"
+                    className="p-1 text-sm cursor-pointer font-bold text-gray-600  underline transition-colors duration-200 hover:text-green-600"
+                  >
+                    {t("reset_password")}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
           {!isRegistered && (
             <>
