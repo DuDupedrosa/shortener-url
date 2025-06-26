@@ -28,4 +28,10 @@
     width: 1rem;
     color: var(--color-gray-600);
   }
+
+  .input-icon-inside-after {
+    width: 1rem;
+    color: var(--color-gray-600);
+    cursor: pointer;
+  }
 }

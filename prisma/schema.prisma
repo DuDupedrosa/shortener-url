@@ -67,4 +67,11 @@ model Shortener {
   user        User     @relation("UserToShorteners", fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ResetPassword {
+  id        String  @id @default(cuid())
+  code      String  @unique
+  email     String
+  expiresAt DateTime
+}
+
         

@@ -195,7 +195,7 @@ export default function OTPComponent({
         {t("verify_your_email")}
       </h2>
 
-      <p className="text-base font-normal max-w-lg text-center text-gray-900">
+      <p className="text-base font-normal max-w-lg mx-auto text-center text-gray-900">
         {t("please_fill_the_code_sended_to_email")}:{" "}
         <span className="font-bold">{email}</span>
       </p>
