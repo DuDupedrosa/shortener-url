@@ -6,13 +6,23 @@ import { authOptions } from "@/lib/auth-options";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
         { message: "unauthorized" },
         { status: HttpStatusEnum.UNAUTHORIZED }
+      );
+    }
+
+    const body = await req.json();
+    const avatarUrl = body.avatarUrl?.trim();
+
+    if (!avatarUrl || typeof avatarUrl !== "string" || avatarUrl.length <= 0) {
+      return NextResponse.json(
+        { message: "required_avatar_url" },
+        { status: HttpStatusEnum.BAD_REQUEST }
       );
     }
 
@@ -27,7 +37,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { password, otpCode, otpCodeExpiresAt, ...response } = user;
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        image: avatarUrl,
+      },
+    });
+
+    const { password, otpCode, otpCodeExpiresAt, ...response } = updatedUser;
 
     return NextResponse.json(
       { payload: response },
@@ -35,7 +52,7 @@ export async function GET(req: NextRequest) {
     );
   } catch (err) {
     return NextResponse.json(
-      { message: "internal_server_erro|api|user|get-by-email" },
+      { message: "internal_server_erro|api|user|undo-change-avatar" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }

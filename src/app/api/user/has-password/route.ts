@@ -22,20 +22,18 @@ export async function GET(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "not_found_user" },
+        { message: "user_not_found" },
         { status: HttpStatusEnum.NOT_FOUND }
       );
     }
 
-    const { password, otpCode, otpCodeExpiresAt, ...response } = user;
-
     return NextResponse.json(
-      { payload: response },
+      { payload: user.password ? true : false },
       { status: HttpStatusEnum.OK }
     );
   } catch (err) {
     return NextResponse.json(
-      { message: "internal_server_erro|api|user|get-by-email" },
+      { message: "internal_server_erro|api|user|has-password" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }

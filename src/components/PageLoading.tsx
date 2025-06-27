@@ -6,7 +6,7 @@ export default function PageLoading() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[90vh] text-gray-700">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] text-gray-700">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="64"

@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth-options";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -27,7 +27,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const { password, otpCode, otpCodeExpiresAt, ...response } = user;
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        image: null,
+      },
+    });
+
+    const { password, otpCode, otpCodeExpiresAt, ...response } = updatedUser;
 
     return NextResponse.json(
       { payload: response },
@@ -35,7 +42,7 @@ export async function GET(req: NextRequest) {
     );
   } catch (err) {
     return NextResponse.json(
-      { message: "internal_server_erro|api|user|get-by-email" },
+      { message: "internal_server_erro|api|user|remove-avatar" },
       { status: HttpStatusEnum.INTERNAL_SERVER_ERROR }
     );
   }

@@ -105,10 +105,10 @@ export default function DialogEditShortenerLink({
     <dialog id="dialog_edit_shortener" className="modal">
       {shortener && (
         <div className="modal-box">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-1">
+          <h2 className="text-2xl text-start font-semibold text-gray-900 mb-1">
             {t("edit_shortener_link")}
           </h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 text-start">
             {t("edit_shortener_link_subtitle")}
           </p>
 

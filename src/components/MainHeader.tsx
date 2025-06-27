@@ -12,24 +12,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChangeLanguageGlobeButton from "./ChangeLanguageGlobeButton";
+import { useUser } from "@/app/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function MainHeader({
   anonymousArea,
 }: {
   anonymousArea?: boolean;
 }) {
-  const [user, setUser] = useState<User | null>(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!user) {
-      const userLocal = window.localStorage.getItem("user");
-
-      if (userLocal) {
-        setUser(JSON.parse(userLocal));
-      }
-    }
-  }, []);
+  const { user } = useUser();
+  const router = useRouter();
 
   return (
     <div className="navbar min-h-20 bg-base-100 shadow-sm">
@@ -96,7 +89,10 @@ export default function MainHeader({
               className="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 pt-2 shadow border border-gray-400"
             >
               <li>
-                <a className="flex items-center gap-2">
+                <a
+                  onClick={() => router.push("/app/profile")}
+                  className="flex items-center gap-2"
+                >
                   <Cog6ToothIcon width={22} />
                   {t("settings")}
                 </a>

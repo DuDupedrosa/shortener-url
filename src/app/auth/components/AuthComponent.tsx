@@ -41,6 +41,28 @@ export default function AuthComponent() {
         toast.error(t("unauthorized"));
       }, 100);
     }
+
+    if (
+      searchParams.get("deleteAccount") &&
+      searchParams.get("deleteAccount") === "success"
+    ) {
+      window.localStorage.clear();
+      router.replace("/auth", { scroll: false });
+      setTimeout(() => {
+        toast.success(t("account_deleted_success"));
+      }, 100);
+    }
+
+    if (
+      searchParams.get("changePassword") &&
+      searchParams.get("changePassword") === "success"
+    ) {
+      window.localStorage.clear();
+      router.replace("/auth", { scroll: false });
+      setTimeout(() => {
+        toast.success(t("password_changed_success"));
+      }, 100);
+    }
   }, [searchParams]);
 
   return (
