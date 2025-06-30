@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import ChangeLanguageGlobeButton from "./ChangeLanguageGlobeButton";
 import { useUser } from "@/app/context/UserContext";
 import { useRouter } from "next/navigation";
+import { clearLocalStorage } from "@/helper/methods/localStorageHelper";
 
 export default function MainHeader({
   anonymousArea,
@@ -100,7 +101,7 @@ export default function MainHeader({
               <li>
                 <a
                   onClick={() => {
-                    window.localStorage.clear();
+                    clearLocalStorage();
                     signOut({ callbackUrl: "/auth" });
                   }}
                   className="flex items-center gap-2"

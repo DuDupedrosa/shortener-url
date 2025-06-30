@@ -9,12 +9,14 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import DashboardComponent from "./components/DashboardComponent";
 import { Shortener } from "@/types/shortener";
+import { useTranslation } from "react-i18next";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [shorteners, setShorteners] = useState<Shortener[] | []>([]);
+  const { i18n } = useTranslation();
 
   const fetchShorteners = async () => {
     setLoading(true);
@@ -35,6 +37,8 @@ export default function DashboardPage() {
         if (userResp && userResp.data && userResp.data.payload) {
           const userData = userResp.data.payload;
           window.localStorage.setItem("user", JSON.stringify(userData));
+          window.localStorage.setItem("lang", userData.lang);
+          i18n.changeLanguage(userData.lang);
           setUser(userData);
         } else {
           signOut({ callbackUrl: "/auth?error=unauthorized" });
