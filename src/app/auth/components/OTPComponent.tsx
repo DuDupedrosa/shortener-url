@@ -1,6 +1,7 @@
 import { HttpStatusEnum } from "@/app/api/helpers/enums/HttpStatusEnum";
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 import { AxiosError, HttpStatusCode } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -245,7 +246,7 @@ export default function OTPComponent({
         {reSendCodeLoading && (
           <p className="text-sm flex justify-center items-center gap-2 text-center mt-8 font-medium text-gray-900">
             {t("resend_code_progress")}
-            <span className="loading loading-spinner text-primary"></span>
+            <SubmitButtonLoading />
           </p>
         )}
 
@@ -284,7 +285,7 @@ export default function OTPComponent({
           }`}
           onClick={onSubmit}
         >
-          {loading && <span className="loading loading-spinner"></span>}
+          {loading && <SubmitButtonLoading />}
           {t("send")}
         </button>
       </form>

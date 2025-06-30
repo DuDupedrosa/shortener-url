@@ -8,6 +8,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import AlertError from "@/components/AlertError";
 import { closeDialog } from "@/helper/methods/dialogHelper";
 import { toast } from "sonner";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 export default function DialogRemoveAvatar({
   onSuccess,
@@ -68,7 +69,7 @@ export default function DialogRemoveAvatar({
               type="button"
               className="btn bg-red-600 text-white hover:bg-red-700"
             >
-              {loading && <span className="loading loading-spinner"></span>}
+              {loading && <SubmitButtonLoading />}
               {t("remove")}
             </button>
           </div>

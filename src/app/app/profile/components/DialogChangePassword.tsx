@@ -13,6 +13,7 @@ import { closeDialog } from "@/helper/methods/dialogHelper";
 import { signOut } from "next-auth/react";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import RevealOrHiddenPasswordsComponent from "@/components/RevealOrHiddenPasswordsComponent";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -229,7 +230,7 @@ export default function DialogChangePassword() {
               className="btn h-10 btn-primary sm:flex-1"
               title={t("change_password")}
             >
-              {loading && <span className="loading loading-spinner"></span>}
+              {loading && <SubmitButtonLoading />}
               {t("change_password")}
             </button>
           </div>

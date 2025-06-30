@@ -10,6 +10,7 @@ import DialogCreateShortenerLink from "./DialogCreateShortenerLink";
 import DialogEditShortenerLink from "./DialogEditShortenerLink";
 import { useState } from "react";
 import DialogDeleteShortenerLink from "./DialogDeleteShortenerLink";
+import { openDialog } from "@/helper/methods/dialogHelper";
 
 export default function DashboardComponent({
   shorteners,
@@ -27,13 +28,6 @@ export default function DashboardComponent({
   const [shortenerToDelete, setShortenerToDelete] = useState<Shortener | null>(
     null
   );
-
-  function openDialog(dialogId: string) {
-    const dialog = document.getElementById(
-      dialogId
-    ) as HTMLDialogElement | null;
-    if (dialog) dialog.showModal();
-  }
 
   function handleEditShortener(data: Shortener) {
     setShortenerToEdit(data);

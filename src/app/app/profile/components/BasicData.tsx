@@ -20,6 +20,8 @@ import DialogChangePasswordWithoutCurrentPassword from "./DialogChangePasswordWi
 import DialogRemoveAvatar from "./DialogRemoveAvatar";
 import axios from "axios";
 import { useUser } from "@/app/context/UserContext";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import InputErrorMessage from "@/components/InputErrorMessage";
 
 export default function BasicData() {
   const [user, setUser] = useState<User | null>(null);
@@ -218,9 +220,7 @@ export default function BasicData() {
                           htmlFor="avatar"
                           className={`btn btn-sm btn-outline btn-primary  cursor-pointer ${uploadAvatarLoading ? "btn-disabled" : ""}`}
                         >
-                          {uploadAvatarLoading && (
-                            <span className="loading loading-spinner"></span>
-                          )}
+                          {uploadAvatarLoading && <SubmitButtonLoading />}
                           {t("change_image")}
                         </label>
                         <input
@@ -251,9 +251,7 @@ export default function BasicData() {
                           htmlFor="avatar-empty"
                           className={`btn btn-sm btn-outline btn-primary  cursor-pointer ${uploadAvatarLoading ? "btn-disabled" : ""}`}
                         >
-                          {uploadAvatarLoading && (
-                            <span className="loading loading-spinner"></span>
-                          )}
+                          {uploadAvatarLoading && <SubmitButtonLoading />}
                           {t("add_image")}
                         </label>
                         <input
@@ -274,9 +272,7 @@ export default function BasicData() {
                     onClick={handleUndoChangeAvatar}
                     className="btn btn-sm btn-primary"
                   >
-                    {undoChangeAvatarLoading && (
-                      <span className="loading loading-spinner"></span>
-                    )}
+                    {undoChangeAvatarLoading && <SubmitButtonLoading />}
                     {t("undo_changes")}{" "}
                     {undoChangeAvatarLoading ? "" : `${countdown}s`}
                   </button>
@@ -292,10 +288,7 @@ export default function BasicData() {
                     className="input input-bordered w-full"
                   />
                   {errors.name && (
-                    <span className="input-error-message">
-                      <ExclamationTriangleIcon />
-                      {errors.name.message}
-                    </span>
+                    <InputErrorMessage message={errors.name.message} />
                   )}
                 </div>
 
@@ -332,9 +325,7 @@ export default function BasicData() {
                   type="submit"
                   className="btn w-full btn-primary"
                 >
-                  {updateBasicDataLoading && (
-                    <span className="loading loading-spinner"></span>
-                  )}
+                  {updateBasicDataLoading && <SubmitButtonLoading />}
                   {t("save")}
                 </button>
               </form>

@@ -2,6 +2,8 @@
 
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
+import InputErrorMessage from "@/components/InputErrorMessage";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 import {
   ArrowLeftIcon,
   EnvelopeIcon,
@@ -99,12 +101,7 @@ export default function ResetPassword({ onSignIn }: { onSignIn: () => void }) {
               aria-label="Email"
             />
           </label>
-          {errors.email && (
-            <span className="input-error-message">
-              <ExclamationTriangleIcon />
-              {errors.email.message}
-            </span>
-          )}
+          {errors.email && <InputErrorMessage message={errors.email.message} />}
         </div>
 
         {success && (
@@ -122,7 +119,7 @@ export default function ResetPassword({ onSignIn }: { onSignIn: () => void }) {
           title={t("reset_password")}
           className="btn btn-primary w-full"
         >
-          {loading && <span className="loading loading-spinner"></span>}
+          {loading && <SubmitButtonLoading />}
           {t("send_link")}
         </button>
 

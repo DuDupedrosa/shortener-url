@@ -17,6 +17,8 @@ import { http } from "@/app/http";
 import { toast } from "sonner";
 import { AxiosError, HttpStatusCode } from "axios";
 import OTPComponent from "./OTPComponent";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import InputErrorMessage from "@/components/InputErrorMessage";
 
 const componentSteps = {
   LOGIN: 1,
@@ -148,10 +150,7 @@ export default function SignIn({
               />
             </label>
             {errors.email && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.email.message}
-              </span>
+              <InputErrorMessage message={errors.email.message} />
             )}
           </div>
           <div>
@@ -167,10 +166,7 @@ export default function SignIn({
               />
             </label>
             {errors.password && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.password.message}
-              </span>
+              <InputErrorMessage message={errors.password.message} />
             )}
           </div>
           {alert && alert.length > 0 && (
@@ -191,7 +187,7 @@ export default function SignIn({
             disabled={loading}
             className="btn btn-primary w-full capitalize"
           >
-            {loading && <span className="loading loading-spinner"></span>}
+            {loading && <SubmitButtonLoading />}
             {t("start_session")}
           </button>
           <span

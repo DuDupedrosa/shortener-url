@@ -15,6 +15,8 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { http } from "@/app/http";
 import AlertError from "@/components/AlertError";
 import RevealOrHiddenPasswordsComponent from "@/components/RevealOrHiddenPasswordsComponent";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import InputErrorMessage from "@/components/InputErrorMessage";
 
 export default function SignUp({
   onSignIn,
@@ -129,12 +131,7 @@ export default function SignUp({
                 aria-label="Full name"
               />
             </label>
-            {errors.name && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <InputErrorMessage message={errors.name.message} />}
           </div>
           <div>
             <label className="input w-full">
@@ -148,10 +145,7 @@ export default function SignUp({
               />
             </label>
             {errors.email && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.email.message}
-              </span>
+              <InputErrorMessage message={errors.email.message} />
             )}
           </div>
           <div>
@@ -177,10 +171,7 @@ export default function SignUp({
               />
             </label>
             {errors.password && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.password.message}
-              </span>
+              <InputErrorMessage message={errors.password.message} />
             )}
           </div>
           <div>
@@ -206,10 +197,7 @@ export default function SignUp({
               />
             </label>
             {errors.confirmPassword && (
-              <span className="input-error-message">
-                <ExclamationTriangleIcon />
-                {errors.confirmPassword.message}
-              </span>
+              <InputErrorMessage message={errors.confirmPassword.message} />
             )}
           </div>
 
@@ -244,7 +232,7 @@ export default function SignUp({
                 disabled={loading}
                 className="btn btn-primary w-full capitalize"
               >
-                {loading && <span className="loading loading-spinner"></span>}
+                {loading && <SubmitButtonLoading />}
                 {t("create_account")}
               </button>
               <span

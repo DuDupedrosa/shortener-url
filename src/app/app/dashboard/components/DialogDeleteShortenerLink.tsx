@@ -9,6 +9,8 @@ import { Shortener } from "@/types/shortener";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { getShortenerUrl } from "@/helper/methods/getShortenerUrl";
 import AlertError from "@/components/AlertError";
+import { closeDialog } from "@/helper/methods/dialogHelper";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 export default function DialogDeleteShortenerLink({
   shortener,
@@ -24,13 +26,7 @@ export default function DialogDeleteShortenerLink({
   const [alert, setAlert] = useState<string>("");
 
   function handleCloseDialog() {
-    const dialog = document.getElementById(
-      "dialog_delete_shortener"
-    ) as HTMLDialogElement | null;
-    if (dialog) {
-      dialog.close();
-      onCloseDialog();
-    }
+    closeDialog("dialog_delete_shortener");
   }
 
   async function deleteShortener() {
@@ -119,7 +115,7 @@ export default function DialogDeleteShortenerLink({
                 type="button"
                 className="btn bg-red-600 text-white hover:bg-red-700"
               >
-                {loading && <span className="loading loading-spinner"></span>}
+                {loading && <SubmitButtonLoading />}
                 {t("delete")}
               </button>
             </div>
