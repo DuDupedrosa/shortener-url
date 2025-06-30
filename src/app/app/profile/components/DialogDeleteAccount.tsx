@@ -8,6 +8,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import AlertError from "@/components/AlertError";
 import { signOut } from "next-auth/react";
 import { closeDialog } from "@/helper/methods/dialogHelper";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 export default function DialogDeleteAccount({ name }: { name: string }) {
   const { t, i18n } = useTranslation();
@@ -65,7 +66,7 @@ export default function DialogDeleteAccount({ name }: { name: string }) {
                 type="button"
                 className="btn bg-red-600 text-white hover:bg-red-700"
               >
-                {loading && <span className="loading loading-spinner"></span>}
+                {loading && <SubmitButtonLoading />}
                 {t("delete")}
               </button>
             </div>

@@ -2,6 +2,7 @@
 
 import DialogCreateShortenerLink from "@/app/app/dashboard/components/DialogCreateShortenerLink";
 import IconHand from "@/assets/image/hand-hello.png";
+import { openDialog } from "@/helper/methods/dialogHelper";
 import { truncateText } from "@/helper/methods/truncateText";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -14,13 +15,6 @@ export default function EmptyDashboard({
   onCreateShortener: () => void;
 }) {
   const { t } = useTranslation();
-
-  function handleOpenDialogCreateShortenerLink() {
-    const dialog = document.getElementById(
-      "dialog_create_shortener"
-    ) as HTMLDialogElement | null;
-    if (dialog) dialog.showModal();
-  }
 
   return (
     <div className="px-5">
@@ -36,7 +30,7 @@ export default function EmptyDashboard({
           </p>
           <div className="card-actions mt-6">
             <button
-              onClick={() => handleOpenDialogCreateShortenerLink()}
+              onClick={() => openDialog("dialog_create_shortener")}
               className="btn btn-primary"
             >
               {t("create_link")}

@@ -13,6 +13,8 @@ import { toast } from "sonner";
 import { Shortener } from "@/types/shortener";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import AlertError from "@/components/AlertError";
+import { closeDialog } from "@/helper/methods/dialogHelper";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -61,14 +63,7 @@ export default function DialogEditShortenerLink({
   }
 
   function handleCloseDialog() {
-    const dialog = document.getElementById(
-      "dialog_edit_shortener"
-    ) as HTMLDialogElement | null;
-    if (dialog) {
-      resetValues();
-      dialog.close();
-      onCloseDialog();
-    }
+    closeDialog("dialog_edit_shortener");
   }
 
   const onSubmit = async (data: EditShortenerData) => {
@@ -163,7 +158,7 @@ export default function DialogEditShortenerLink({
                 type="submit"
                 className="btn h-10 btn-primary sm:flex-1"
               >
-                {loading && <span className="loading loading-spinner"></span>}
+                {loading && <SubmitButtonLoading />}
                 {t("edit")}
               </button>
             </div>

@@ -16,6 +16,9 @@ import AlertError from "@/components/AlertError";
 import { AxiosError, HttpStatusCode } from "axios";
 import { http } from "@/app/http";
 import DialogResetPasswordSuccess from "../components/DialogResetPasswordSuccess";
+import { openDialog } from "@/helper/methods/dialogHelper";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import InputErrorMessage from "@/components/InputErrorMessage";
 
 export default function Page() {
   const params = useParams();
@@ -57,17 +60,6 @@ export default function Page() {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  function handleOpenDialogSuccess() {
-    const dialog = document.getElementById(
-      "modal_reset_password_success"
-    ) as HTMLDialogElement;
-
-    if (dialog) {
-      dialog.showModal();
-      setSuccess(true);
-    }
-  }
-
   const onSubmit = async (data: ResetPasswordFormData) => {
     setLoading(true);
     setAlert("");
@@ -77,7 +69,7 @@ export default function Page() {
         code: slug,
       };
       await http.post("/api/user/reset-password", payload);
-      handleOpenDialogSuccess();
+      openDialog("modal_reset_password_success");
       reset({
         newPassword: "",
         confirmNewPassword: "",
@@ -139,10 +131,7 @@ export default function Page() {
                 />
               </label>
               {errors.newPassword && (
-                <span className="input-error-message">
-                  <ExclamationTriangleIcon />
-                  {errors.newPassword.message}
-                </span>
+                <InputErrorMessage message={errors.newPassword.message} />
               )}
             </div>
 
@@ -169,10 +158,9 @@ export default function Page() {
                 />
               </label>
               {errors.confirmNewPassword && (
-                <span className="input-error-message">
-                  <ExclamationTriangleIcon />
-                  {errors.confirmNewPassword.message}
-                </span>
+                <InputErrorMessage
+                  message={errors.confirmNewPassword.message}
+                />
               )}
             </div>
 
@@ -194,7 +182,7 @@ export default function Page() {
               title={t("reset_password")}
               className="btn btn-primary w-full mt-2"
             >
-              {loading && <span className="loading loading-spinner"></span>}
+              {loading && <SubmitButtonLoading />}
               {t("reset_password")}
             </button>
 

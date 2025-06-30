@@ -12,6 +12,8 @@ import { http } from "@/app/http";
 import { AxiosError, HttpStatusCode } from "axios";
 import { toast } from "sonner";
 import AlertError from "@/components/AlertError";
+import { closeDialog } from "@/helper/methods/dialogHelper";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -79,13 +81,7 @@ export default function DialogCreateShortenerLink({
   }
 
   function handleCloseDialog() {
-    const dialog = document.getElementById(
-      "dialog_create_shortener"
-    ) as HTMLDialogElement | null;
-    if (dialog) {
-      resetValues();
-      dialog.close();
-    }
+    closeDialog("dialog_create_shortener");
   }
 
   const onSubmit = async (data: CreateShortenerData) => {
@@ -245,7 +241,7 @@ export default function DialogCreateShortenerLink({
               type="submit"
               className="btn h-10 btn-primary sm:flex-1"
             >
-              {loading && <span className="loading loading-spinner"></span>}
+              {loading && <SubmitButtonLoading />}
               {t("send")}
             </button>
           </div>
