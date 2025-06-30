@@ -6,12 +6,22 @@ import USFlag from "@/assets/svg/us-flag.svg";
 import BRFlag from "@/assets/svg/br-flag.svg";
 import Image from "next/image";
 import { LanguageText, LanguageTextEnum } from "@/helper/enums/LanguageEnum";
+import { http } from "@/app/http";
+import { usePathname } from "next/navigation";
 
 export default function ChangeLanguageGlobeButton() {
   const { i18n } = useTranslation();
+  const pathname = usePathname();
 
-  function changeLang(lng: LanguageText) {
+  async function changeLang(lng: LanguageText) {
     i18n.changeLanguage(lng);
+    window.localStorage.setItem("lang", lng);
+
+    if (pathname.includes("/app")) {
+      try {
+        await http.patch("/api/user/change-language", { lang: lng });
+      } catch (err) {}
+    }
   }
 
   return (

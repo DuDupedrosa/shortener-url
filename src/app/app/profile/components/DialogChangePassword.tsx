@@ -14,6 +14,7 @@ import { signOut } from "next-auth/react";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import RevealOrHiddenPasswordsComponent from "@/components/RevealOrHiddenPasswordsComponent";
 import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import { clearLocalStorage } from "@/helper/methods/localStorageHelper";
 
 const labelStyle = "text-sm text-start font-medium text-gray-700";
 const inputStyle = "input input-bordered w-full";
@@ -69,7 +70,7 @@ export default function DialogChangePassword() {
         currentPassword: data.currentPassword,
       };
       await http.patch("/api/user/change-password", payload);
-      window.localStorage.clear();
+      clearLocalStorage();
       signOut({ callbackUrl: "/auth?changePassword=success" });
     } catch (err) {
       if (

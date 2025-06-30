@@ -12,6 +12,7 @@ import SignUp from "./SignUp";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import ResetPassword from "./ResetPassword";
+import { clearLocalStorage } from "@/helper/methods/localStorageHelper";
 
 const componentStepEnum = {
   SIGN_IN: 1,
@@ -35,7 +36,7 @@ export default function AuthComponent() {
       searchParams.get("error") &&
       searchParams.get("error") === "unauthorized"
     ) {
-      window.localStorage.clear();
+      clearLocalStorage();
       router.replace("/auth", { scroll: false });
       setTimeout(() => {
         toast.error(t("unauthorized"));
@@ -46,7 +47,7 @@ export default function AuthComponent() {
       searchParams.get("deleteAccount") &&
       searchParams.get("deleteAccount") === "success"
     ) {
-      window.localStorage.clear();
+      clearLocalStorage();
       router.replace("/auth", { scroll: false });
       setTimeout(() => {
         toast.success(t("account_deleted_success"));
@@ -57,7 +58,7 @@ export default function AuthComponent() {
       searchParams.get("changePassword") &&
       searchParams.get("changePassword") === "success"
     ) {
-      window.localStorage.clear();
+      clearLocalStorage();
       router.replace("/auth", { scroll: false });
       setTimeout(() => {
         toast.success(t("password_changed_success"));

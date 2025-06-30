@@ -9,6 +9,7 @@ import AlertError from "@/components/AlertError";
 import { signOut } from "next-auth/react";
 import { closeDialog } from "@/helper/methods/dialogHelper";
 import SubmitButtonLoading from "@/components/SubmitButtonLoading";
+import { clearLocalStorage } from "@/helper/methods/localStorageHelper";
 
 export default function DialogDeleteAccount({ name }: { name: string }) {
   const { t, i18n } = useTranslation();
@@ -19,7 +20,7 @@ export default function DialogDeleteAccount({ name }: { name: string }) {
     setLoading(true);
     try {
       await http.delete(`/api/user?lang=${i18n.language}`);
-      window.localStorage.clear();
+      clearLocalStorage();
       signOut({ callbackUrl: "/auth?deleteAccount=success" });
     } catch (err) {
       if (
