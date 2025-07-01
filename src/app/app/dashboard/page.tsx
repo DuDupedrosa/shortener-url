@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import DashboardComponent from "./components/DashboardComponent";
 import { Shortener } from "@/types/shortener";
 import { useTranslation } from "react-i18next";
+import MainFooter from "@/components/MainFooter";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -60,27 +61,32 @@ export default function DashboardPage() {
   // então aqui é seguro assumir que o user está logado.
 
   return (
-    <div className="min-h-screen  bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {loading && <PageLoading />}
+
       {!loading && user && (
-        <div>
+        <>
           <MainHeader />
 
-          {shorteners && shorteners.length > 0 && (
-            <DashboardComponent
-              onReFetch={() => fetchShorteners()}
-              userName={user.name}
-              shorteners={shorteners}
-            />
-          )}
+          <div className="flex-grow">
+            {shorteners && shorteners.length > 0 && (
+              <DashboardComponent
+                onReFetch={() => fetchShorteners()}
+                userName={user.name}
+                shorteners={shorteners}
+              />
+            )}
 
-          {(!shorteners || shorteners.length <= 0) && (
-            <EmptyDashboard
-              userName={user.name}
-              onCreateShortener={() => fetchShorteners()}
-            />
-          )}
-        </div>
+            {(!shorteners || shorteners.length <= 0) && (
+              <EmptyDashboard
+                userName={user.name}
+                onCreateShortener={() => fetchShorteners()}
+              />
+            )}
+          </div>
+
+          <MainFooter logged={true} />
+        </>
       )}
     </div>
   );
