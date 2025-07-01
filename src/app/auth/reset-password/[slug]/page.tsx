@@ -70,6 +70,7 @@ export default function Page() {
       };
       await http.post("/api/user/reset-password", payload);
       openDialog("modal_reset_password_success");
+      setSuccess(true);
       reset({
         newPassword: "",
         confirmNewPassword: "",

@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { PrismaClient } from "@prisma/client";
 import { Resend } from "resend";
-import SendResetPasswordTemplate from "@/components/resend-templates/send-reset-password-link";
 import { LanguageTextEnum } from "@/helper/enums/LanguageEnum";
 import { nanoid } from "nanoid";
 import { formatZodErrors } from "@/app/api/helpers/methods/formatZodErros";
 import { HttpStatusEnum } from "@/app/api/helpers/enums/HttpStatusEnum";
+import SendResetPasswordTemplate from "@/components/resend-templates/send-reset-password-link-template";
 
 const prisma = new PrismaClient();
 
