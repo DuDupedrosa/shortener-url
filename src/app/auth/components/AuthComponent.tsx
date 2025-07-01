@@ -80,7 +80,7 @@ export default function AuthComponent() {
         <div className="h-full grid place-items-center pb-8">
           <div>
             {step !== componentStepEnum.RESET_PASSWORD && (
-              <div className="max-w-[150px] mx-auto">
+              <div className="max-w-[150px] mx-auto mb-8 mt-20">
                 <Image className="w-full" src={Logo} alt="snipply-url" />
               </div>
             )}

@@ -8,12 +8,16 @@ import i18n from "../i18n";
 
 import { SessionProvider } from "next-auth/react";
 import { UserProvider } from "./context/UserContext";
+import { Toaster } from "sonner";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <I18nextProvider i18n={i18n}>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          {children}
+          <Toaster richColors position="top-center" />
+        </UserProvider>
       </I18nextProvider>
     </SessionProvider>
   );
