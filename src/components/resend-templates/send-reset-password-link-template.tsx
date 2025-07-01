@@ -19,7 +19,7 @@ export const SendResetPasswordTemplate: React.FC<
         "Se você não solicitou essa redefinição, ignore este e-mail com segurança.",
       copyright: "© 2025 snipply-url. Todos os direitos reservados.",
       privacyPolicy: "Política de Privacidade",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
     en: {
       greeting: `Hello!`,
@@ -31,7 +31,7 @@ export const SendResetPasswordTemplate: React.FC<
         "If you didn’t request this reset, feel free to ignore this email.",
       copyright: "© 2025 snipply-url. All rights reserved.",
       privacyPolicy: "Privacy Policy",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
   };
 

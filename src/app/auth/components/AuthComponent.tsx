@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import ResetPassword from "./ResetPassword";
 import { clearLocalStorage } from "@/helper/methods/localStorageHelper";
+import MainFooter from "@/components/MainFooter";
 
 const componentStepEnum = {
   SIGN_IN: 1,

@@ -20,7 +20,7 @@ export const DeleteAccountEmailTemplate: React.FC<
         "Se você não solicitou a exclusão desta conta, entre em contato conosco imediatamente.",
       copyright: "© 2025 snipply-url. Todos os direitos reservados.",
       privacyPolicy: "Política de Privacidade",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
     en: {
       greeting: `Hello, ${firstName}.`,
@@ -33,7 +33,7 @@ export const DeleteAccountEmailTemplate: React.FC<
         "If you did not request this account deletion, please contact us immediately.",
       copyright: "© 2025 snipply-url. All rights reserved.",
       privacyPolicy: "Privacy Policy",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
   };
 

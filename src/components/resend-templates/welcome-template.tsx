@@ -19,7 +19,7 @@ export const WelcomeEmailTemplate: React.FC<
       ignore: "Se você não solicitou essa conta, ignore este e-mail.",
       copyright: "© 2025 snipply-url. Todos os direitos reservados.",
       privacyPolicy: "Política de Privacidade",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
     en: {
       greeting: `Hello, ${firstName}!`,
@@ -31,7 +31,7 @@ export const WelcomeEmailTemplate: React.FC<
       ignore: "If you did not request this account, please ignore this email.",
       copyright: "© 2025 snipply-url. All rights reserved.",
       privacyPolicy: "Privacy Policy",
-      privacyLink: "https://www.snipplyurl.com.br/politica-privacidade",
+      privacyLink: "https://www.snipplyurl.com.br/privacy-policy",
     },
   };
 
