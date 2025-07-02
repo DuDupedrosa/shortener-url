@@ -163,5 +163,18 @@
   "privacy_section_7_text": "We may update this Policy from time to time. The latest version will always be available on this page.",
   "privacy_section_8_title": "8. Contact",
   "privacy_section_8_text": "If you have questions or requests related to privacy, contact us at:",
-  "privacy_section_8_email": "snipplyurl@gmail.com"
+  "privacy_section_8_email": "snipplyurl@gmail.com",
+  "home_title": "Shorten your URLs with ease",
+  "the": "The",
+  "home_description": "is a simple and free tool to turn long links into short, practical URLs.",
+  "start_now": "Start now",
+  "access_platform": "Access platform",
+  "how_its_work": "How it works",
+  "paste_your_url": "Paste your URL",
+  "click_short": "Click on \"shorten\"",
+  "share_link": "Share the link",
+  "dashboard": "Home",
+  "page_not_found_title": "Oops! Page not found",
+  "page_not_found_description": "It looks like the link is broken or the page you're looking for doesn't exist.",
+  "back_home": "Back to home"
 }
