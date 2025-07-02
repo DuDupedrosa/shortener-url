@@ -2,33 +2,71 @@
 
 import MainFooter from "@/components/MainFooter";
 import MainHeader from "@/components/MainHeader";
+import PageLoading from "@/components/PageLoading";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  const [anonymousUser, setAnonymousUser] = useState<boolean>(true);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (session && session.user) {
+      setAnonymousUser(false);
+    }
+  }, [session]);
+
+  if (status === "loading") return <PageLoading />;
+
   return (
     <div className="flex flex-col min-h-screen">
-      <MainHeader anonymousArea={true} />
+      <MainHeader anonymousArea={anonymousUser} />
 
       <main className="flex-grow container mx-auto px-4 py-12 flex flex-col items-center text-center">
         <h1 className="text-4xl font-bold text-primary mb-4">
-          Encurte suas URLs com facilidade
+          {t("home_title")}
         </h1>
         <p className="text-lg text-gray-600 mb-8 max-w-xl">
-          O <strong>SnipplyURL</strong> é uma ferramenta simples e gratuita para
-          transformar links longos em URLs curtas e práticas.
+          {t("the")} <strong>SnipplyURL</strong> {t("home_description")}
         </p>
 
-        <Link href="/create">
-          <button className="btn btn-primary btn-lg">Comece agora</button>
+        <Link href={anonymousUser ? "/auth" : "/app/dashboard"}>
+          <button className="btn btn-primary btn-lg">
+            {anonymousUser ? t("start_now") : t("access_platform")}
+          </button>
         </Link>
 
         <div className="mt-12 w-full max-w-2xl">
-          <h2 className="text-2xl font-semibold mb-4">Como funciona</h2>
+          <h2 className="text-2xl font-semibold mb-4">{t("how_its_work")}</h2>
           <ul className="steps steps-vertical lg:steps-horizontal w-full">
-            <li className="step step-primary">Cole sua URL</li>
-            <li className="step step-primary">Clique em "Encurtar"</li>
-            <li className="step step-primary">Compartilhe o link</li>
+            <li className="step step-primary">{t("paste_your_url")}</li>
+            <li className="step step-primary">{t("click_short")}</li>
+            <li className="step step-primary">{t("share_link")}</li>
           </ul>
+        </div>
+        <div className="mt-12 w-full max-w-2xl aspect-video hidden md:block">
+          <video
+            className="w-full h-full object-cover rounded-lg shadow-lg"
+            src="/snipplyurl-preview.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+        </div>
+
+        <div className="mt-12 w-full max-w-2xl h-[80vh] block md:hidden">
+          <video
+            className="w-full h-full object-cover rounded-lg shadow-lg"
+            src="/snipplyurl-preview-mobile.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
         </div>
       </main>
 

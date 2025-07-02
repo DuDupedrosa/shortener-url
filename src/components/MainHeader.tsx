@@ -1,15 +1,14 @@
 import Logo from "@/assets/image/logo.png";
-import { User } from "@/types/user";
 import {
   ArrowLeftEndOnRectangleIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
+  HomeIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChangeLanguageGlobeButton from "./ChangeLanguageGlobeButton";
 import { useUser } from "@/app/context/UserContext";
@@ -89,6 +88,15 @@ export default function MainHeader({
               tabIndex={0}
               className="menu dropdown-content bg-base-100 rounded-box z-10 mt-3 w-56 pt-2 shadow border border-gray-400"
             >
+              <li>
+                <a
+                  onClick={() => router.push("/app/dashboard")}
+                  className="flex items-center gap-2"
+                >
+                  <HomeIcon width={22} />
+                  {t("dashboard")}
+                </a>
+              </li>
               <li>
                 <a
                   onClick={() => router.push("/app/profile")}

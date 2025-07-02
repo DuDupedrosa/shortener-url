@@ -163,5 +163,18 @@
   "privacy_section_7_text": "Podemos atualizar esta Política periodicamente. A versão mais recente estará sempre disponível nesta página.",
   "privacy_section_8_title": "8. Contato",
   "privacy_section_8_text": "Em caso de dúvidas ou solicitações relacionadas à privacidade, entre em contato pelo e-mail:",
-  "privacy_section_8_email": "snipplyurl@gmail.com"
+  "privacy_section_8_email": "snipplyurl@gmail.com",
+  "home_title": "Encurte suas URLs com facilidade",
+  "the": "O",
+  "home_description": "é uma ferramenta simples e gratuita para transformar links longos em URLs curtas e práticas.",
+  "start_now": "Comece agora",
+  "access_platform": "Acessar plataforma",
+  "how_its_work": "Como funciona",
+  "paste_your_url": "Cole sua URL",
+  "click_short": "Clique em \"encurtar\"",
+  "share_link": "Compartilhe o link",
+  "dashboard": "Página inicial",
+  "page_not_found_title": "Ops! Página não encontrada",
+  "page_not_found_description": "  Parece que o link está quebrado ou a página que você procura não existe.",
+  "back_home": "Voltar para home"
 }
