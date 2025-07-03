@@ -11,6 +11,7 @@ import DashboardComponent from "./components/DashboardComponent";
 import { Shortener } from "@/types/shortener";
 import { useTranslation } from "react-i18next";
 import MainFooter from "@/components/MainFooter";
+import { useUser } from "@/app/context/UserContext";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -18,6 +19,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [shorteners, setShorteners] = useState<Shortener[] | []>([]);
   const { i18n } = useTranslation();
+  const { updateUser } = useUser();
 
   const fetchShorteners = async () => {
     setLoading(true);
@@ -41,6 +43,8 @@ export default function DashboardPage() {
           window.localStorage.setItem("lang", userData.lang);
           i18n.changeLanguage(userData.lang);
           setUser(userData);
+          updateUser(userData);
+          fetchShorteners();
         } else {
           signOut({ callbackUrl: "/auth?error=unauthorized" });
         }
@@ -50,19 +54,15 @@ export default function DashboardPage() {
     };
 
     if (session && session.user) {
-      fetchUserByEmail();
-      fetchShorteners();
+      if (!user) {
+        fetchUserByEmail();
+      }
     }
   }, [session]);
 
-  if (status === "loading") return <PageLoading />;
-
-  // Se não está autenticado, a middleware já redirecionou,
-  // então aqui é seguro assumir que o user está logado.
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {loading && <PageLoading />}
+      {(loading || !user) && <PageLoading />}
 
       {!loading && user && (
         <>

@@ -3,8 +3,10 @@
 import MainFooter from "@/components/MainFooter";
 import MainHeader from "@/components/MainHeader";
 import PageLoading from "@/components/PageLoading";
+import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -12,14 +14,13 @@ export default function Home() {
   const { data: session, status } = useSession();
   const [anonymousUser, setAnonymousUser] = useState<boolean>(true);
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     if (session && session.user) {
       setAnonymousUser(false);
     }
   }, [session]);
-
-  if (status === "loading") return <PageLoading />;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -33,11 +34,16 @@ export default function Home() {
           {t("the")} <strong>SnipplyURL</strong> {t("home_description")}
         </p>
 
-        <Link href={anonymousUser ? "/auth" : "/app/dashboard"}>
-          <button className="btn btn-primary btn-lg">
-            {anonymousUser ? t("start_now") : t("access_platform")}
-          </button>
-        </Link>
+        <button
+          disabled={status === "loading"}
+          onClick={() =>
+            router.push(anonymousUser ? "/auth" : "/app/dashboard")
+          }
+          className="btn btn-primary btn-lg"
+        >
+          {status === "loading" && <SubmitButtonLoading />}
+          {anonymousUser ? t("start_now") : t("access_platform")}
+        </button>
 
         <div className="mt-12 w-full max-w-2xl">
           <h2 className="text-2xl font-semibold mb-4">{t("how_its_work")}</h2>

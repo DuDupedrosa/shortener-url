@@ -19,6 +19,7 @@ import DialogResetPasswordSuccess from "../components/DialogResetPasswordSuccess
 import { openDialog } from "@/helper/methods/dialogHelper";
 import SubmitButtonLoading from "@/components/SubmitButtonLoading";
 import InputErrorMessage from "@/components/InputErrorMessage";
+import MainFooter from "@/components/MainFooter";
 
 export default function Page() {
   const params = useParams();
@@ -90,10 +91,10 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <MainHeader anonymousArea={true} />
 
-      <div className="px-8 mt-12">
+      <div className="px-8 mt-12 flex-grow">
         <div className="bg-base-100 p-8  mx-auto rounded-2xl shadow-xl border border-gray-200 w-full max-w-md transition-all">
           <div className="flex justify-center mb-6">
             <div className="bg-green-100 text-green-700 p-4 rounded-full">
@@ -198,6 +199,8 @@ export default function Page() {
           <DialogResetPasswordSuccess open={success} />
         </div>
       </div>
+
+      <MainFooter />
     </div>
   );
 }
