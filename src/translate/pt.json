@@ -176,5 +176,6 @@
   "dashboard": "Página inicial",
   "page_not_found_title": "Ops! Página não encontrada",
   "page_not_found_description": "  Parece que o link está quebrado ou a página que você procura não existe.",
-  "back_home": "Voltar para home"
+  "back_home": "Voltar para home",
+  "invalid_current_password": "Senha atual inválida."
 }
