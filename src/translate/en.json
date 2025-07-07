@@ -176,5 +176,6 @@
   "dashboard": "Home",
   "page_not_found_title": "Oops! Page not found",
   "page_not_found_description": "It looks like the link is broken or the page you're looking for doesn't exist.",
-  "back_home": "Back to home"
+  "back_home": "Back to home",
+  "url_not_same_origin_url": "It's not possible to shorten a URL that belongs to the same site."
 }

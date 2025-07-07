@@ -57,6 +57,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const appName = process.env.APP_BASE_NAME || "snipplyurl";
+
+    if (appName && dto.url.includes(appName)) {
+      return NextResponse.json(
+        { message: "url_not_same_origin_url" },
+        { status: HttpStatusEnum.BAD_REQUEST }
+      );
+    }
+
     if (dto.url.toLowerCase().startsWith("http://")) {
       return NextResponse.json(
         { message: httpNotValidProtocol },
